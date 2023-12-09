@@ -1,29 +1,32 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/tsm_app/public/node_modules
-/tsm_app/public/.pnp
-/tsm_app/public.pnp.js
+/*/node_modules
+.pnp
+.pnp.js
 
 # testing
-/tsm_app/public/coverage
+/coverage
 
 # production
-/tsm_app/public/build
+/*/build
 
 # misc
-/tsm_app/public/.DS_Store
-/tsm_app/public/.env.local
-/tsm_app/public/.env.development.local
-/tsm_app/public/.env.test.local
-/tsm_app/public/.env.production.local
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-/tsm_app/public/npm-debug.log*
-/tsm_app/public/yarn-debug.log*
-/tsm_app/public/yarn-error.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Byte-compiled / optimized / DLL files
+.idea
 __pycache__/
+populate_models.py
+#/*/settings.py
 *.py[cod]
 *$py.class
 
