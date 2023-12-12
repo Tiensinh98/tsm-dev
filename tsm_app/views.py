@@ -1,39 +1,52 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.views import generic, View
-from . models import Project
 
 
 def index(request):
     return render(request, 'index.html', {})
 
-def task(request):
-    data = {
-        'key1': 'value1',
-        'key2': 'value2',
-    }
+def tsm_app(request):
+    return render(request, 'index.html', {})
 
-    # Create a JsonResponse instance with your data
-    response = JsonResponse(data, status=200)
-    print('Response: ', response)
-    return response
+def login(request):
+    return render(request, 'index.html', {})
 
 
-class ProjectView(View):
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def projects(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
 
-    @classmethod
-    def get(cls, request, *args, **kwargs):
-        if len(kwargs):
-            project_id = kwargs.get('pk', None)
-            if project_id is None:
-                return JsonResponse([], status=200)
-            project = Project.objects.get(baseissue_ptr_id=int(project_id))
-            return JsonResponse(project.__dict__, status=200)
-        try:
-            data = [project.__dict__ for project in Project.objects.all()]
-            # remove unused keys i.e. _state, id, ptr_id
-            status = 200
-        except Exception as e:
-            data = []
-            status = 404
-        return JsonResponse(data, status=status)
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def tasks(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def leaders(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def workers(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['POST'])
+# def login(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['POST'])
+# def logout(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def devices(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def user_settings(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def timeline(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
+#
+# @api_view(['GET', 'PUT', 'DELETE', 'PATCH'])
+# def components(request, *args, **kwargs):
+#     return JsonResponse({}, status=200)
