@@ -1,5 +1,7 @@
-from django.db import models
 import django.utils.timezone as tz
+
+from datetime import datetime
+from django.db import models
 
 DEFAULT_PRIORITY = 'medium'
 PRIORITY_CHOICES = [
@@ -34,6 +36,9 @@ DEVICE_STATUS_CHOICES = [
 
 
 class BaseWorker(models.Model):
+    """
+    docstring
+    """
     first_name = models.CharField(null=False, max_length=30, default='John')
     last_name = models.CharField(null=False, max_length=30, default='Bell')
     dob = models.DateField(null=True)
@@ -41,8 +46,19 @@ class BaseWorker(models.Model):
     def __str__(self):
         return f'{self.__class__.__name__}({self.first_name} {self.last_name})'
 
+    def get_json_value(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'dob': self.dob
+        }
+
 
 class Leader(BaseWorker):
+    """
+    docstring
+    """
     LEADER_ROLES_CHOICES = [
         ('senior_software_developer', 'Senior Software Developer'),
         ('senior_software_engineer', 'Senior Software Engineer')
@@ -55,8 +71,17 @@ class Leader(BaseWorker):
         default=LEADER_ROLES_CHOICES[0][0]
     )
 
+    def get_json_value(self):
+        return {
+            **super().get_json_value(),
+            'role': self.role
+        }
+
 
 class Worker(BaseWorker):
+    """
+    docstring
+    """
     ROLE_CHOICES = [
         ('software_developer', 'Software Developer'),
         ('software_engineer', 'Software Engineer'),
@@ -71,8 +96,18 @@ class Worker(BaseWorker):
     )
     supervisor: Leader = models.ForeignKey(Leader, on_delete=models.SET_NULL, null=True)
 
+    def get_json_value(self):
+        return {
+            **super().get_json_value(),
+            'role': self.role,
+            'supervisor': self.supervisor.get_json_value()
+        }
+
 
 class WorkerTelephone(models.Model):
+    """
+    docstring
+    """
     telephone_number = models.CharField(max_length=20, null=True)
     worker: BaseWorker = models.ForeignKey(BaseWorker, on_delete=models.CASCADE)
 
@@ -81,6 +116,9 @@ class WorkerTelephone(models.Model):
 
 
 class BaseIssue(models.Model):
+    """
+    docstring
+    """
     issue_name = models.CharField(max_length=50, default='', null=False)
     start_date = models.DateField(null=True)
     due_date = models.DateField(null=True)
@@ -95,6 +133,7 @@ class BaseIssue(models.Model):
 
     def get_json_value(self):
         return {
+            'id': self.id,
             'issue_name': self.issue_name,
             'start_date': self.start_date,
             'due_date': self.start_date,
@@ -103,8 +142,21 @@ class BaseIssue(models.Model):
             'description': self.description,
         }
 
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        """
+        docstring
+        """
+        return {
+            'start_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format),
+            'due_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format)
+        }
+
 
 class Project(BaseIssue):
+    """
+    docstring
+    """
     project_leader = models.ForeignKey(Leader, on_delete=models.SET_NULL, null=True)
     workers = models.ManyToManyField(Worker)
 
@@ -112,14 +164,27 @@ class Project(BaseIssue):
         return f"{self.get_issue_info()} Leader: {self.project_leader}"
 
     def get_json_value(self):
-        leader_info = self.project_leader.__dict__
+        project_leader_json = None
+        if self.project_leader is not None:
+            project_leader_json = self.project_leader.get_json_value()
         return {
-            'project_leader': leader_info.get('first_name') + leader_info.get('last_name'),
-            **super().get_json_value()
+            **self.baseissue_ptr.get_json_value(),
+            'project_leader': project_leader_json,
+            'workers': [worker.get_json_value() for worker in self.workers.all()]
+        }
+
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        return {
+            **BaseIssue.get_non_primitive_field_to_converter(),
+            'project_leader': lambda leader_id: Leader.objects.get(baseworker_ptr_id=leader_id)
         }
 
 
 class Task(BaseIssue):
+    """
+    docstring
+    """
     head_project: Project = models.ForeignKey(Project, on_delete=models.CASCADE)
     worker = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True)
 
@@ -127,13 +192,20 @@ class Task(BaseIssue):
         return f"{self.get_issue_info()} Project: {self.head_project} Assignee: {self.worker}"
 
     def get_json_value(self):
+        worker_json = None
+        if self.worker is not None:
+            worker_json = self.worker.get_json_value()
         return {
-            'head_project': self.head_project.get_json_value()['issue_name'],
-            # 'worker': self.worker,
-            **super().get_json_value()
+            **self.baseissue_ptr.get_json_value(),
+            'head_project': self.head_project.get_json_value(),
+            'worker': worker_json
         }
 
+
 class Device(models.Model):
+    """
+    docstring
+    """
     device_name = models.CharField(max_length=50, default='', null=False)
     device_type = models.CharField(max_length=50, default=DEFAULT_DEVICE, choices=DEVICE_CHOICES)
     purchase_date = models.DateField(default=tz.now(), null=False)
@@ -147,8 +219,28 @@ class Device(models.Model):
     def __str__(self):
         return f"{self.device_type}({self.device_name} is used by {self.user})"
 
+    def get_json_value(self):
+        user_json = None
+        if self.user is not None:
+            user_json = self.user.get_json_value()
+        return {
+            'id': self.id,
+            'device_name': self.device_name,
+            'device_type': self.device_type,
+            'purchase_date': self.purchase_date,
+            'supplier': self.supplier,
+            'invoice': self.invoice,
+            'handover_date': self.handover_date,
+            'basic_config': self.basic_config,
+            'status': self.status,
+            'user': user_json
+        }
+
 
 class DeviceUserHistory(models.Model):
+    """
+    docstring
+    """
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
     user = models.ForeignKey(Worker, on_delete=models.CASCADE, null=True)
     handover_date = models.DateField(default='', null=False)

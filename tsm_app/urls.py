@@ -9,14 +9,17 @@ urlpatterns = [
     path('login/', views.login),
     path('tsm-app/', views.tsm_app),
 ]
+
+api_model_names = ['project', 'task']
+api_model_endpoint_to_view_ptr = {
+    "/": (get_get_all_models, ''),
+    "/<int:pk>/": (get_get_or_patch_or_delete_model, 'one'),
+    "/filter/": (get_filter_models, 'filter'),
+    "/add/": (get_create_model, 'add'),
+}
 api_urlpatterns = [
-    path('projects/', view=projects, name='projects'),
-    path('projects/<int:pk>/', view=projects),
-    path('projects/filter/', view=filter_projects),
-    path('projects/add/', view=add_projects),
-    path('tasks/', view=tasks, name='tasks'),
-    path('tasks/<int:pk>/', view=tasks),
-    path('tasks/filter/', view=filter_tasks),
-    path('tasks/add/', view=add_tasks),
+    path(f'{model_name}s{endpoint}', view=view_ptr(model_name.capitalize()), name=f'{model_name}s{name}')
+    for endpoint, (view_ptr, name) in api_model_endpoint_to_view_ptr.items()
+    for model_name in api_model_names
 ]
 urlpatterns = format_suffix_patterns(urlpatterns + api_urlpatterns)

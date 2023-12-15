@@ -1,4 +1,5 @@
 import typing as tp
+from django.db import models
 from django.db.models.base import ModelState
 
 
@@ -9,8 +10,3 @@ class RequestMethod:
     PATCH = 'PATCH'
     DELETE = 'DELETE'
 
-
-def filter_query(query: tp.Union[list, dict]) -> tp.Union[list, dict]:
-    if isinstance(query, dict):
-        return {k: v for k, v in query.items() if not isinstance(v, ModelState)}
-    return [{k: v for k, v in q.items() if not isinstance(v, ModelState)} for q in query]
