@@ -8,14 +8,12 @@ const Login = () => {
   const navigate = useNavigate();  // Use the useNavigate hook
 
   const handleLogin = async () => {
-    try {
-      // Redirect to the home page after successful login
-      await axios.get('/projects/');
-      navigate("/home");
-    } catch (error) {
-      console.error('Login error:', error);
-      // Handle login error
-    }
+    const response = await axios.post("/api/login/", {
+        username: username,
+        password: password
+    });
+    if (!response.data.success) navigate("/login/");
+    else navigate("/home/");
   };
 
   return (

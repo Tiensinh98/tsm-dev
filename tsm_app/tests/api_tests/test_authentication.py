@@ -8,7 +8,7 @@ class TestAuthenticationAPIs:
         # Define the URL for the API endpoint
 
         # Make a GET request to the API endpoint with the 'name' parameter
-        response = basic_client.post('/register/', {
+        response = basic_client.post('/api/register/', {
             'username': 'andrew@gmail.com',
             'password': '123456'
         })
@@ -19,7 +19,7 @@ class TestAuthenticationAPIs:
         # Check that the response contains the expected data
         api_test_case.assertEqual(response.json(), {'success': True, 'message': 'Create User successfully'})
 
-        response = basic_client.post('/login/', {
+        response = basic_client.post('/api/login/', {
             'username': 'andrew@gmail.com',
             'password': '123456'
         })

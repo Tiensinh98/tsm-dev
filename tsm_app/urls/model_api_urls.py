@@ -1,16 +1,8 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from . import views
-from . import app_tools
+from .. import app_tools
 
-urlpatterns = [
-    path('', views.index),
-    path('login/', app_tools.login, name='login'),
-    path('logout/', app_tools.logout, name='logout'),
-    path('register/', app_tools.register),
-    path('tsm-app/', views.tsm_app), # <int:year>/<int:month>/<int:day>/<slug:post>/
-]
 
 api_model_names = ['project', 'task']
 api_model_endpoint_to_view_ptr = {
@@ -25,4 +17,5 @@ api_urlpatterns = [
     for model_name in api_model_names
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns + api_urlpatterns)
+urlpatterns = format_suffix_patterns(api_urlpatterns)
+

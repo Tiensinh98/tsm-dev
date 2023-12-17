@@ -4,8 +4,8 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html', {})
 
-def tsm_app(request):
+def login(request):
     return render(request, 'index.html', {})
 
-def login(request):
+def home(request):
     return render(request, 'index.html', {})

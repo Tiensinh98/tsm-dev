@@ -19,6 +19,8 @@ from django.urls import include, path
 from django.conf import settings
 
 urlpatterns = [
-    path("", include("tsm_app.urls")),
+    path("", include("tsm_app.urls.urls")),
+    path("api/", include("tsm_app.urls.auth_api_urls")),
+    path("api/", include("tsm_app.urls.model_api_urls")),
     path("admin/", admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

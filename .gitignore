@@ -27,9 +27,6 @@ yarn-error.log*
 .idea
 __pycache__/
 populate_models.py
-app_config.json
-test_app_config.json
-#/*/settings.py
 *.py[cod]
 *$py.class
 
@@ -89,6 +86,8 @@ cover/
 *.log
 local_settings.py
 db.sqlite3
+/app_config.json
+/test_app_config.json
 db.sqlite3-journal
 
 # Flask stuff:
