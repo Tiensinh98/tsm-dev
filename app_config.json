@@ -1,0 +1,10 @@
+{
+  "secret_key": "!y%%a0$xcdvc*1i8hm@fafcjrsktt-x-(e=zs^67ma27p6_m3_",
+  "database": {
+    "dataset": "task_management_system",
+    "user": "postgres",
+    "password": "Tiensinhakselos2016",
+    "host": "localhost",
+    "port": 5432
+  }
+}

@@ -1,7 +1,12 @@
-import django.utils.timezone as tz
-
 from datetime import datetime
 from django.db import models
+from django.utils import timezone
+from django.contrib.auth import models as auth_models
+
+__all__ = [
+    'Leader', 'Worker', 'Project', 'Task',
+    'WorkerTelephone', 'Device', 'DeviceUserHistory', 'CustomUser'
+]
 
 DEFAULT_PRIORITY = 'medium'
 PRIORITY_CHOICES = [
@@ -33,6 +38,10 @@ DEVICE_STATUS_CHOICES = [
     ('in_fix', 'In Fix'),
     ('idle', 'Idle'),
 ]
+
+class DatabaseException(Exception):
+    def __str__(self):
+        return 'Database Exception'
 
 
 class BaseWorker(models.Model):
@@ -104,6 +113,7 @@ class Worker(BaseWorker):
         }
 
 
+
 class WorkerTelephone(models.Model):
     """
     docstring
@@ -127,6 +137,12 @@ class BaseIssue(models.Model):
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES, default=DEFAULT_STATUS, null=True)
     description = models.TextField(max_length=1000, null=True)
+
+    class Meta:
+        ordering = ['-issue_name']
+        indexes = [
+            models.Index(fields=['-issue_name']),
+        ]
 
     def get_issue_info(self):
         return f'{self.__class__.__name__}: {self.issue_name} Status: {self.status}'
@@ -174,6 +190,28 @@ class Project(BaseIssue):
         }
 
     @staticmethod
+    def from_json_value(json_value: dict):
+        project_arguments = {}
+        field_to_converter = Project.get_non_primitive_field_to_converter()
+        for key, value in json_value.items():
+            if key in BaseIssue.__dict__.keys():
+                if key in field_to_converter:
+                    value = field_to_converter[key](value)
+                project_arguments[key] = value
+        project_leader_json = json_value.get('project_leader')
+        if project_leader_json is not None:
+            try:
+                leader = Leader(**project_leader_json)
+                leader.save()
+                project_arguments['project_leader'] = leader
+            except DatabaseException as e:
+                print(e)
+                leader = Leader.objects.get(baseworker_ptr_id=project_leader_json['id'])
+            project_arguments['project_leader'] = leader
+        return Project(**project_arguments)
+
+
+    @staticmethod
     def get_non_primitive_field_to_converter() -> dict:
         return {
             **BaseIssue.get_non_primitive_field_to_converter(),
@@ -208,10 +246,10 @@ class Device(models.Model):
     """
     device_name = models.CharField(max_length=50, default='', null=False)
     device_type = models.CharField(max_length=50, default=DEFAULT_DEVICE, choices=DEVICE_CHOICES)
-    purchase_date = models.DateField(default=tz.now(), null=False)
+    purchase_date = models.DateField(default=timezone.now, null=False)
     supplier = models.CharField(max_length=50, default='', null=False)
     invoice = models.ImageField(upload_to =f'devices/invoice/{device_type}/{device_name}')
-    handover_date = models.DateField(default=tz.now(), null=False)
+    handover_date = models.DateField(default=timezone.now, null=False)
     basic_config = models.TextField(max_length=1000, default='', null=True)
     status = models.CharField(max_length=20, default=DEFAULT_DEVICE_STATUS, choices=DEVICE_STATUS_CHOICES)
     user = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True)
@@ -243,8 +281,20 @@ class DeviceUserHistory(models.Model):
     """
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
     user = models.ForeignKey(Worker, on_delete=models.CASCADE, null=True)
-    handover_date = models.DateField(default='', null=False)
-    expired_date = models.DateField(default='', null=False)
+    handover_date = models.DateField(default=timezone.now, null=False)
+    expired_date = models.DateField(default=timezone.now, null=False)
 
     def __str__(self):
         return f"{self.user} used {self.device} from {self.handover_date} to {self.expired_date}"
+
+
+class CustomUser(auth_models.AbstractUser):
+    """
+    Model for user authentication
+    """
+    class Meta:
+        app_label = 'tsm_app'
+        swappable = 'AUTH_USER_MODEL'
+
+    dob = models.DateField(null=True)
+    profile_image = models.ImageField(upload_to ='users/profile/')

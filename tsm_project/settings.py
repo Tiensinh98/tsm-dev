@@ -10,22 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import tools
 
+BASE_DIR = tools.BASE_DIR
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = tools.read_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost'] # test server for testing
 
 
 # Application definition
@@ -38,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
+
+AUTH_USER_MODEL = 'tsm_app.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,19 +83,20 @@ WSGI_APPLICATION = 'tsm_project.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'NAME': directories.BASE_DIR / 'db.sqlite3',
 #     }
 # }
 
 # SECURITY WARNING: keep the username and password used in production secret!
+DATABASE_CONFIG = tools.read_database_config()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',  # database name
-        'USER': '',  # username
-        'PASSWORD': '',  # password
-        'HOST': '',  # psql -u username -h localhost
-        'PORT': ''  # default port
+        'NAME': DATABASE_CONFIG['dataset'],  # database name
+        'USER': DATABASE_CONFIG['user'],  # username
+        'PASSWORD': DATABASE_CONFIG['password'],  # password
+        'HOST': DATABASE_CONFIG['host'],  # psql -u username -h localhost
+        'PORT': DATABASE_CONFIG['port']  # default port
     }
 }
 
@@ -115,6 +118,29 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher'
+]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 
 # Internationalization

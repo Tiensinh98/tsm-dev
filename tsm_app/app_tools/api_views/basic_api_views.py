@@ -1,8 +1,10 @@
+import typing as tp
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
-from .view_utils import *
-from .. import models
+from . import view_utils as vu
+from .. import database
 
 
 def get_get_all_models(model_str):
@@ -25,7 +27,7 @@ def get_get_all_models(model_str):
         Returns:
             JsonResponse
         """
-        all_models = getattr(models, model_str).objects.all()
+        all_models = getattr(database, model_str).objects.all()
         data = [model.get_json_value() for model in all_models]
         return JsonResponse(data, status=200, safe=False)
 
@@ -36,7 +38,7 @@ def get_get_or_patch_or_delete_model(model_str):
     """
     This function acts as a wrapper that return the get/patch/delete a specified model api
     """
-    model_class = getattr(models, model_str)
+    model_class = getattr(database, model_str)
 
     @api_view(['GET', 'DELETE', 'PATCH'])
     def get_or_patch_or_delete_project(request, *args, **kwargs) -> tp.Union[None, JsonResponse]:
@@ -61,17 +63,17 @@ def get_get_or_patch_or_delete_model(model_str):
             else:
                 key = 'id'
             filterer = {key: model_id}
-            if method == RequestMethod.GET:
+            if method == vu.RequestMethod.GET:
                 data = {}
                 try:
-                    model = getattr(models, model_str).objects.get(**filterer)
+                    model = getattr(database, model_str).objects.get(**filterer)
                     data = model.get_json_value()
                 except model_class.DoesNotExist:
                     return JsonResponse({'message': f'{model_str} not found'}, status=404)
                 return JsonResponse(data, status=200, safe=False)
-            elif method == RequestMethod.DELETE:
+            elif method == vu.RequestMethod.DELETE:
                 try:
-                    model = getattr(models, model_str).objects.get(**filterer)
+                    model = getattr(database, model_str).objects.get(**filterer)
                     model.delete()
                 except model_class.DoesNotExist:
                     return JsonResponse({'message': f'Can not delete {model_str}'}, status=404)
@@ -106,7 +108,7 @@ def get_filter_models(model_str):
     def filter_models(request) -> JsonResponse:
         """
         This GET API is used to filter through all models that match a couple
-        of criterias
+        of criterion
         e.g. for Project
         Required:
             None
@@ -118,7 +120,7 @@ def get_filter_models(model_str):
             JsonResponse
         """
         query_params = request.query_params
-        queries = getattr(models, model_str).objects.filter(**query_params.dict())
+        queries = getattr(database, model_str).objects.filter(**query_params.dict())
         data = [query.get_json_value() for query in queries]
         return JsonResponse(data, status=200, safe=False)
 
@@ -130,9 +132,10 @@ def get_create_model(model_str):
     This function acts as a wrapper that returns the create model
     api respective to the model type
     """
-    field_to_converter = getattr(models, model_str).get_non_primitive_field_to_converter()
+    field_to_converter = getattr(database, model_str).get_non_primitive_field_to_converter()
 
     @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
     def create_model(request) -> JsonResponse:
         """
         This POST API is used to create a new Model with some fields
@@ -155,7 +158,7 @@ def get_create_model(model_str):
                 data[key] = converter(value)
             else:
                 data[key] = value
-        new_model = getattr(models, model_str)(**data)
+        new_model = getattr(database, model_str)(**data)
         new_model.save()
         return JsonResponse({'message': f'Create {model_str} successfully'}, status=201)
 

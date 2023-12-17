@@ -3,10 +3,6 @@
 import React, { useEffect } from 'react';
 
 const Home = () => {
-    useEffect(async () => {
-        const data = await fetch('/projects/');
-        console.log(data.json())
-    });
 
   return (
     <div>

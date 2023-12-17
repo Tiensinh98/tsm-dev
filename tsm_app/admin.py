@@ -1,9 +1,11 @@
 from django.contrib import admin
-from . import models
+from . import app_tools
 
-
-admin.site.register(models.Worker)
-admin.site.register(models.Leader)
-admin.site.register(models.WorkerTelephone)
-admin.site.register(models.Project)
-admin.site.register(models.Task)
+admin.site.register(app_tools.Worker)
+admin.site.register(app_tools.Leader)
+admin.site.register(app_tools.WorkerTelephone)
+admin.site.register(app_tools.Project)
+admin.site.register(app_tools.Task)
+admin.site.register(app_tools.Device)
+admin.site.register(app_tools.DeviceUserHistory)
+admin.site.register(app_tools.CustomUser)

@@ -1,0 +1,37 @@
+{
+  "projects": [
+    {
+      "description": null,
+      "due_date": "2023-12-17",
+      "id": 2,
+      "issue_name": "Project 2",
+      "priority": "medium",
+      "project_leader": {
+        "dob": null,
+        "first_name": "Phuong",
+        "id": 3,
+        "last_name": "Huynh",
+        "role": "senior_software_engineer"},
+      "start_date": "2023-12-17",
+      "status": "in_development",
+      "workers": []
+    },
+    {
+      "description": null,
+      "due_date": "2023-12-17",
+      "id": 1,
+      "issue_name": "Project 1",
+      "priority": "high",
+      "project_leader": {
+        "dob": null,
+        "first_name": "John",
+        "id": 1,
+        "last_name": "Bell",
+        "role": "senior_software_developer"
+      },
+      "start_date": "2023-12-17",
+      "status": "to_do",
+      "workers": []
+    }
+  ]
+}

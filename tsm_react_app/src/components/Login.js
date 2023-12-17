@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +10,8 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       // Redirect to the home page after successful login
-      navigate('/tsm-app');
+      await axios.get('/projects/');
+      navigate("/home");
     } catch (error) {
       console.error('Login error:', error);
       // Handle login error

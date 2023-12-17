@@ -2,6 +2,7 @@
 
 # dependencies
 /*/node_modules
+/*/migrations
 .pnp
 .pnp.js
 
@@ -26,6 +27,8 @@ yarn-error.log*
 .idea
 __pycache__/
 populate_models.py
+app_config.json
+test_app_config.json
 #/*/settings.py
 *.py[cod]
 *$py.class
