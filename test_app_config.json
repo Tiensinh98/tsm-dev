@@ -1,10 +1,10 @@
 {
-  "secret_key": "!y%%a0$xcdvc*1i8hm@fafcjrsktt-x-(e=zs^67ma27p6_m3_",
+  "secret_key": "",
   "database": {
-    "dataset": "test_task_management_system",
+    "dataset": "",
     "user": "postgres",
-    "password": "Tiensinhakselos2016",
-    "host": "localhost",
-    "port": 5432
+    "password": "",
+    "host": "",
+    "port": 
   }
 }
