@@ -9,3 +9,6 @@ def login(request):
 
 def home(request):
     return render(request, 'index.html', {})
+
+def logout(request):
+    return render(request, 'index.html', {})

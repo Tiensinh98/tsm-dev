@@ -13,3 +13,6 @@ def read_secret_key():
 
 def read_database_config():
     return SETTING_CONFIG['database']
+
+def read_email_config():
+    return SETTING_CONFIG['email']

@@ -11,7 +11,8 @@
         "first_name": "Phuong",
         "id": 3,
         "last_name": "Huynh",
-        "role": "senior_software_engineer"},
+        "role": "senior_software_engineer"
+      },
       "start_date": "2023-12-17",
       "status": "in_development",
       "workers": []
@@ -32,6 +33,22 @@
       "start_date": "2023-12-17",
       "status": "to_do",
       "workers": []
+    }
+  ],
+  "leaders": [
+    {
+      "dob": "1992-05-17",
+      "first_name": "John",
+      "id": 1,
+      "last_name": "Bell",
+      "role": "senior_software_developer"
+    },
+    {
+      "dob": null,
+      "first_name": "Phuong",
+      "id": 3,
+      "last_name": "Huynh",
+      "role": "senior_software_engineer"
     }
   ]
 }

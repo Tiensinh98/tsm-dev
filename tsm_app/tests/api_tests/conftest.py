@@ -21,7 +21,8 @@ def api_test_case():
 def super_client():
     utils.truncate_all_tables()
     user = db.CustomUser.objects.create_user(
-        username='testuser', password='testpassword', is_superuser=True)
+        username='testuser', password='testpassword',
+        is_superuser=True, email='test_user@gmail.com')
     client = APIClient()
     client.force_authenticate(user=user)
     return client
@@ -29,6 +30,9 @@ def super_client():
 @pytest.fixture(autouse=True)
 def basic_client():
     utils.truncate_all_tables()
+    db.CustomUser.objects.create_user(
+        username='testuser', email='test_user@gmail.com',
+        password='testpassword', is_superuser=False)
     return APIClient()
 
 @pytest.fixture()

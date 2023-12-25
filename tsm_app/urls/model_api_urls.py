@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .. import app_tools
 
 
-api_model_names = ['project', 'task']
+api_model_names = ['project', 'task', 'leader', 'worker']
 api_model_endpoint_to_view_ptr = {
     "/": (app_tools.get_get_all_models, ''),
     "/<int:pk>/": (app_tools.get_get_or_patch_or_delete_model, 'one'),

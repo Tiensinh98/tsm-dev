@@ -63,6 +63,15 @@ class BaseWorker(models.Model):
             'dob': self.dob
         }
 
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        """
+        docstring
+        """
+        return {
+            'dob': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format) if ts is not None else None,
+        }
+
 
 class Leader(BaseWorker):
     """
@@ -85,6 +94,22 @@ class Leader(BaseWorker):
             **super().get_json_value(),
             'role': self.role
         }
+
+    @staticmethod
+    def from_json_value(json_value: dict):
+        leader_arguments = {}
+        field_to_converter = Leader.get_non_primitive_field_to_converter()
+        for key, value in json_value.items():
+            if key in BaseWorker.__dict__.keys():
+                if key in field_to_converter:
+                    value = field_to_converter[key](value)
+                leader_arguments[key] = value
+        try:
+            leader = Leader(**leader_arguments)
+            return leader
+        except DatabaseException as e:
+            print('Leader may exist already')
+            return
 
 
 class Worker(BaseWorker):
@@ -152,7 +177,7 @@ class BaseIssue(models.Model):
             'id': self.id,
             'issue_name': self.issue_name,
             'start_date': self.start_date,
-            'due_date': self.start_date,
+            'due_date': self.due_date,
             'priority': self.priority,
             'status': self.status,
             'description': self.description,
@@ -164,8 +189,8 @@ class BaseIssue(models.Model):
         docstring
         """
         return {
-            'start_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format),
-            'due_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format)
+            'start_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format) if ts is not None else None,
+            'due_date': lambda ts, format='%Y-%m-%d': datetime.strptime(ts, format) if ts is not None else None
         }
 
 

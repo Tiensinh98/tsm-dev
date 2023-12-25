@@ -54,6 +54,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # 'account.authentication.EmailAuthBackend',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.google.GoogleOAuth2'
+]
+
+EMAIL_CONFIG = tools.read_email_config()
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = EMAIL_CONFIG['host']  # Use the appropriate values for your email backend
+# EMAIL_PORT = EMAIL_CONFIG['port']         # Use the appropriate port for your email backend
+# EMAIL_USE_TLS = EMAIL_CONFIG['use_tls']     # Set to True if your email backend uses TLS
+# EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
 ROOT_URLCONF = 'tsm_project.urls'
 
 TEMPLATES = [
@@ -131,11 +146,12 @@ PASSWORD_HASHERS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.BrowsableAPIRenderer',
