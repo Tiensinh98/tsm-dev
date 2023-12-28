@@ -34,9 +34,11 @@ def logout(request) -> tp.Union[None, JsonResponse]:
 @permission_classes([AllowAny])
 def register(request) -> tp.Union[None, JsonResponse]:
     username = request.data['username']
+    email = request.data['email']
     password = request.data['password']
     try:
-        user = database.CustomUser(username=username, password=password)
+        user = database.CustomUser(
+            username=username, email=email, password=password)
         user.set_password(password)
         user.save()
         return JsonResponse({'success': True, 'message': 'Create User successfully'})

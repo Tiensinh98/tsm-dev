@@ -57,3 +57,7 @@ class TestAuthenticationAPIs:
         response = basic_client.get('/api/password-reset/done/')
         outbox = mail.EmailMessage().body
         print(outbox)
+
+    def test_google_authentication(self, api_test_case, basic_client):
+        response = basic_client.post('/social-auth/complete/google-oauth2/')
+        print(response.content)

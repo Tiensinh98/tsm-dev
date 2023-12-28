@@ -12,3 +12,9 @@ def home(request):
 
 def logout(request):
     return render(request, 'index.html', {})
+
+def tsm_app(request):
+    return render(request, 'index.html', {})
+
+def tsm_app_projects(request):
+    return render(request, 'index.html', {})

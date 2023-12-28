@@ -16,3 +16,6 @@ def read_database_config():
 
 def read_email_config():
     return SETTING_CONFIG['email']
+
+def read_google_auth_config():
+    return SETTING_CONFIG['google_auth'] # Google credentials
