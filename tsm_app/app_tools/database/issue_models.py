@@ -1,3 +1,5 @@
+import logging
+
 from datetime import datetime
 from django.db import models
 
@@ -85,6 +87,10 @@ class Project(Issue):
     def __str__(self):
         return f"{self.get_issue_info()} Leader: {self.leader}"
 
+    @staticmethod
+    def from_json_value(json_value):
+        return Project(**json_value)
+
     def get_json_value(self):
         leader_id = None
         if self.leader is not None:
@@ -103,16 +109,6 @@ class Project(Issue):
                 if key in field_to_converter:
                     value = field_to_converter[key](value)
                 project_arguments[key] = value
-        leader_json = json_value.get('leader')
-        if leader_json is not None:
-            try:
-                leader = user_models.CustomUser(**leader_json)
-                leader.save()
-                project_arguments['project_leader'] = leader
-            except DatabaseException as e:
-                print(e)
-                leader = user_models.CustomUser.objects.get(id=leader_json['id'])
-            project_arguments['project_leader'] = leader
         return Project(**project_arguments)
 
 
@@ -134,6 +130,17 @@ class Task(Issue):
     assignee: user_models.CustomUser = models.ForeignKey(
         user_models.CustomUser, on_delete=models.SET_NULL, null=True)
 
+    def __init__(self, *args, **kwargs):
+        line_project = kwargs.pop('line_project', None)
+        if line_project is None and len(args) == 0:
+            print('Try to instantiate Telephone without profile PrimaryKey!!! '
+                  'Dummy Profile will be created!!!')
+            line_project = Project(
+                name=f'dummy_project_name')
+            line_project.save()
+            kwargs['line_project'] = line_project
+        super().__init__(*args, **kwargs)
+
     def __str__(self):
         return f"{self.get_issue_info()} Project: {self.line_project} Assignee: {self.assignee}"
 
@@ -146,6 +153,10 @@ class Task(Issue):
             'line_project_id': self.line_project.id, # project foreign key cannot be null
             'assignee_id': assignee_id
         }
+
+    @staticmethod
+    def from_json_value(json_value):
+        return Task(**json_value)
 
 
 def get_datetime_from_str(timestamp: str, format: str='%Y-%m-%d'):

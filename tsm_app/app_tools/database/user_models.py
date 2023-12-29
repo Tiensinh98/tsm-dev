@@ -1,9 +1,13 @@
+import logging
+import uuid
+
 from django.db import models
 from django.contrib.auth import models as auth_models
 
 
 __all__ = [
-    'CustomUser', 'Profile', 'Telephone'
+    'CustomUser', 'Profile',
+    'Telephone'
 ]
 
 ROLE_CHOICES = [
@@ -14,6 +18,7 @@ ROLE_CHOICES = [
     ('senior_software_developer', 'Senior Software Developer'),
     ('senior_software_engineer', 'Senior Software Engineer')
 ]
+DEFAULT_ROLE_CHOICE = ROLE_CHOICES[0][0]
 
 
 class CustomUser(auth_models.AbstractUser):
@@ -24,6 +29,9 @@ class CustomUser(auth_models.AbstractUser):
     class Meta:
         app_label = 'tsm_app'
         swappable = 'AUTH_USER_MODEL'
+
+    def __str__(self):
+        return f'User(email={self.email}, first_name={self.first_name})'
 
     def get_json_value(self):
         return {
@@ -36,6 +44,10 @@ class CustomUser(auth_models.AbstractUser):
             'team_id': self.team.id
         }
 
+    @staticmethod
+    def from_json_value(json_value: dict):
+        return CustomUser(**json_value)
+
 
 class Profile(models.Model):
     user: CustomUser = models.OneToOneField(
@@ -46,11 +58,28 @@ class Profile(models.Model):
         null=False,
         max_length=50,
         choices=ROLE_CHOICES,
-        default=ROLE_CHOICES[0][0]
+        default=DEFAULT_ROLE_CHOICE
     )
     dob = models.DateField(null=True)
     profile_image = models.ImageField(upload_to='users/profile/')
     description = models.TextField(max_length=1000, null=True)
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        if user is None and len(args) == 0:
+            print('Try to instantiate Profile without user PrimaryKey!!! '
+                  'Dummy user will be created!!!')
+            unique_id = uuid.uuid4().hex
+            user = CustomUser(
+                username=f"dummy_user{unique_id}",
+                password="dummy_password",
+                email=f"dummy_email_{unique_id}@gmail.com")
+            user.save()
+            kwargs['user'] = user
+        super().__init__(*args, **kwargs)
+
+    def __str__(self):
+        return f'Profile(user={self.user})'
 
     def get_json_value(self):
         return {
@@ -63,6 +92,10 @@ class Profile(models.Model):
             'description': self.description
         }
 
+    @staticmethod
+    def from_json_value(json_value: dict):
+        return Profile(**json_value)
+
 
 class Telephone(models.Model):
     """
@@ -71,6 +104,15 @@ class Telephone(models.Model):
     tel = models.CharField(max_length=20, null=True)
     profile: Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
+    def __init__(self, *args, **kwargs):
+        profile = kwargs.pop('profile', None)
+        if profile is None and len(args) == 0:
+            print('Try to instantiate Telephone without profile PrimaryKey!!! '
+                  'Dummy Profile will be created!!!')
+            profile = Profile(
+                role=DEFAULT_ROLE_CHOICE)
+            kwargs['profile'] = profile
+        super().__init__(*args, **kwargs)
     def __str__(self):
         return f'{self.profile} - {self.tel}'
 

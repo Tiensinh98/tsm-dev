@@ -28,7 +28,7 @@ def get_get_all_models(model_str):
             JsonResponse
         """
         all_models = getattr(database, model_str).objects.all()
-        data = [model.get_json_value() for model in all_models]
+        data = [model.get_json_value() for model in all_models if not model.name.startswith('dummy')]
         return JsonResponse(data, status=200, safe=False)
 
     return get_all_models

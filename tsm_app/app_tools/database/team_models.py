@@ -25,7 +25,7 @@ class Team(models.Model):
         ]
 
     def get_issue_info(self):
-        return f'{self.__class__.__name__}: {self.name} Status: {self.leader}'
+        return f'Team(name={self.name}, leader= {self.leader})'
 
     def get_json_value(self):
         leader_id = None

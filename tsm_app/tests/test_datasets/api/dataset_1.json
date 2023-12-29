@@ -1,54 +1,147 @@
 {
-  "projects": [
+  "models": [
     {
-      "description": null,
-      "due_date": "2023-12-17",
-      "id": 2,
-      "issue_name": "Project 2",
-      "priority": "medium",
-      "project_leader": {
-        "dob": null,
-        "first_name": "Phuong",
-        "id": 3,
-        "last_name": "Huynh",
-        "role": "senior_software_engineer"
-      },
-      "start_date": "2023-12-17",
-      "status": "in_development",
-      "workers": []
+      "model_class": "Project",
+      "tuples": [
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 1,
+          "name": "Project 1",
+          "priority": "medium",
+          "status": "in_development"
+        },
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 2,
+          "name": "Project 2",
+          "priority": "medium",
+          "status": "to_do"
+        }
+      ]
     },
     {
-      "description": null,
-      "due_date": "2023-12-17",
-      "id": 1,
-      "issue_name": "Project 1",
-      "priority": "high",
-      "project_leader": {
-        "dob": null,
-        "first_name": "John",
-        "id": 1,
-        "last_name": "Bell",
-        "role": "senior_software_developer"
-      },
-      "start_date": "2023-12-17",
-      "status": "to_do",
-      "workers": []
+      "model_class": "Task",
+      "tuples": [
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 3,
+          "name": "Task 1",
+          "priority": "medium",
+          "status": "in_development"
+        },
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 4,
+          "name": "Task 2",
+          "priority": "medium",
+          "status": "to_do"
+        }
+      ]
+    },
+    {
+      "model_class": "CustomUser",
+      "tuples": [
+        {
+          "id": 1,
+          "email": "test@example.com",
+          "username": "test_user",
+          "password": "test_password",
+          "first_name": "Test",
+          "last_name": "User"
+        },
+        {
+          "id": 2,
+          "email": "test1@example.com",
+          "username": "test_user1",
+          "password": "test_password1",
+          "first_name": "Test",
+          "last_name": "User1"
+        }
+      ]
+    },
+    {
+      "model_class": "Profile",
+      "tuples": [
+        {
+          "id": 1,
+          "role": "software_developer",
+          "dob": null,
+          "profile_image": null,
+          "description": null
+        },
+        {
+          "id": 2,
+          "role": "software_engineer",
+          "dob": "1992-12-17",
+          "profile_image": "test_user1.png",
+          "description": "Test description"
+        }
+      ]
     }
   ],
-  "leaders": [
+  "relations": [
     {
-      "dob": "1992-05-17",
-      "first_name": "John",
-      "id": 1,
-      "last_name": "Bell",
-      "role": "senior_software_developer"
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 1
+      }
     },
     {
-      "dob": null,
-      "first_name": "Phuong",
-      "id": 3,
-      "last_name": "Huynh",
-      "role": "senior_software_engineer"
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 2
+      }
+    },
+    {
+      "relation": "leader",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Project",
+        "id": 1
+      }
+    },
+    {
+      "relation": "line_project",
+      "reference": {
+        "model_class": "Project",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Task",
+        "id": 3
+      }
+    },
+    {
+      "relation": "line_project",
+      "reference": {
+        "model_class": "Project",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Task",
+        "id": 4
+      }
     }
   ]
 }
