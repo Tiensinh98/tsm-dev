@@ -6,7 +6,7 @@ class TestProjectAPI:
 
     @staticmethod
     def test_project_api_1(api_test_case, super_client, dataset):
-        url = reverse('projects')
+        url = reverse('tsm-app/projects')
         response = super_client.get(url)
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
         api_test_case.assertEqual(response.json(), [

@@ -22,6 +22,7 @@ def truncate_all_tables():
     for model_str, model in db.__dict__.items():
         if model_str.startswith('__'):
             continue
-        if model_str.startswith('models'):
+        if model_str in ['user_models', 'issue_models',
+                         'staff_models', 'device_models', 'team_models']:
             continue
         model.objects.all().delete()
