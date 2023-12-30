@@ -142,6 +142,17 @@
         "model_class": "Task",
         "id": 4
       }
+    },
+    {
+      "relation": "assignee",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Task",
+        "id": 4
+      }
     }
   ]
 }

@@ -127,7 +127,7 @@ class Task(Issue):
         user_models.CustomUser, on_delete=models.SET_NULL, null=True)
 
     def __init__(self, *args, **kwargs):
-        line_project = kwargs.pop('line_project', None)
+        line_project = kwargs.get('line_project', None)
         if line_project is None and len(args) == 0:
             print('Try to instantiate Telephone without profile PrimaryKey!!! '
                   'Dummy Profile will be created!!!')
@@ -153,7 +153,7 @@ class Task(Issue):
     @staticmethod
     def from_json_value(json_value: dict):
         task_arguments = {}
-        field_to_converter = Issue.get_non_primitive_field_to_converter()
+        field_to_converter = Task.get_non_primitive_field_to_converter()
         for key, value in json_value.items():
             if key in Issue.__dict__.keys():
                 if key in field_to_converter:

@@ -65,7 +65,7 @@ class Profile(models.Model):
     description = models.TextField(max_length=1000, null=True)
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
+        user = kwargs.get('user', None)
         if user is None and len(args) == 0:
             print('Try to instantiate Profile without user PrimaryKey!!! '
                   'Dummy user will be created!!!')
@@ -105,7 +105,7 @@ class Telephone(models.Model):
     profile: Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __init__(self, *args, **kwargs):
-        profile = kwargs.pop('profile', None)
+        profile = kwargs.get('profile', None)
         if profile is None and len(args) == 0:
             print('Try to instantiate Telephone without profile PrimaryKey!!! '
                   'Dummy Profile will be created!!!')
