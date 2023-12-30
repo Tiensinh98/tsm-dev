@@ -27,8 +27,9 @@ def get_get_all_models(model_str):
         Returns:
             JsonResponse
         """
-        all_models = getattr(database, model_str).objects.all()
-        data = [model.get_json_value() for model in all_models if not model.name.startswith('dummy')]
+        all_models = (getattr(database, model_str).objects
+                      .all().exclude(name__startswith='dummy').order_by('id'))
+        data = [model.get_json_value() for model in all_models]
         return JsonResponse(data, status=200, safe=False)
 
     return get_all_models
@@ -88,6 +89,8 @@ def get_get_or_patch_or_delete_model(model_str):
                             value = parameter
                         else:
                             value = converter(parameter)
+                            if isinstance(value, tuple):
+                                value = value[0]
                         setattr(model, field, value)
                     model.save()
                 except model_class.DoesNotExist as e:
@@ -120,7 +123,8 @@ def get_filter_models(model_str):
             JsonResponse
         """
         query_params = request.query_params
-        queries = getattr(database, model_str).objects.filter(**query_params.dict())
+        queries = (getattr(database, model_str)
+                   .objects.filter(**query_params.dict()).order_by('id'))
         data = [query.get_json_value() for query in queries]
         return JsonResponse(data, status=200, safe=False)
 
@@ -155,7 +159,11 @@ def get_create_model(model_str):
         for key, value in request.data.items():
             converter = field_to_converter.get(key)
             if converter is not None:
-                data[key] = converter(value)
+                # modify the key back to the original name to create object properly
+                value = converter(value)
+                if isinstance(value, tuple):
+                    value, key = value
+                data[key] = value
             else:
                 data[key] = value
         new_model = getattr(database, model_str)(**data)

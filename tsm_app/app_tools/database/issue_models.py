@@ -87,10 +87,6 @@ class Project(Issue):
     def __str__(self):
         return f"{self.get_issue_info()} Leader: {self.leader}"
 
-    @staticmethod
-    def from_json_value(json_value):
-        return Project(**json_value)
-
     def get_json_value(self):
         leader_id = None
         if self.leader is not None:
@@ -103,7 +99,7 @@ class Project(Issue):
     @staticmethod
     def from_json_value(json_value: dict):
         project_arguments = {}
-        field_to_converter = Project.get_non_primitive_field_to_converter()
+        field_to_converter = Issue.get_non_primitive_field_to_converter()
         for key, value in json_value.items():
             if key in Issue.__dict__.keys():
                 if key in field_to_converter:
@@ -116,15 +112,15 @@ class Project(Issue):
     def get_non_primitive_field_to_converter() -> dict:
         return {
             **Issue.get_non_primitive_field_to_converter(),
-            'leader': lambda leader_id: user_models.CustomUser.objects.get(id=leader_id)
+            'leader_id': lambda leader_id: (user_models.CustomUser.objects.get(id=leader_id), 'leader')
         }
 
 
 class Task(Issue):
     """
     This model inherits Issue and represents the lowest level of issue which is Task.
-    It keeps a ForeignKey to CustomUser to indicate who is responsible for this task, and a ForeignKey to Project
-    to imply which project this task belongs to.
+    It keeps a ForeignKey to CustomUser to indicate who is responsible for this task,
+    and a ForeignKey to Project to imply which project this task belongs to.
     """
     line_project: Project = models.ForeignKey(Project, on_delete=models.CASCADE)
     assignee: user_models.CustomUser = models.ForeignKey(
@@ -155,8 +151,23 @@ class Task(Issue):
         }
 
     @staticmethod
-    def from_json_value(json_value):
-        return Task(**json_value)
+    def from_json_value(json_value: dict):
+        task_arguments = {}
+        field_to_converter = Issue.get_non_primitive_field_to_converter()
+        for key, value in json_value.items():
+            if key in Issue.__dict__.keys():
+                if key in field_to_converter:
+                    value = field_to_converter[key](value)
+                task_arguments[key] = value
+        return Task(**task_arguments)
+
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        return {
+            **Issue.get_non_primitive_field_to_converter(),
+            'line_project_id': lambda project_id: (Project.objects.get(id=project_id), 'line_project'),
+            'assignee_id': lambda assignee_id: (user_models.CustomUser.objects.get(id=assignee_id), 'assignee')
+        }
 
 
 def get_datetime_from_str(timestamp: str, format: str='%Y-%m-%d'):
