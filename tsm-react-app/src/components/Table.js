@@ -23,7 +23,7 @@ const BasicTable = (props) => {
           {props.rows.map((row) => (
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               {Object.entries(row).filter(r => r[0] !== "id").map(r => (
-                <TableCell align="center">{r[1]}</TableCell>
+                <TableCell align="center"><a href={`/tsm-app/projects/${row.id}/`}>{r[1]}</a></TableCell>
               ))}
             </TableRow>
           ))}

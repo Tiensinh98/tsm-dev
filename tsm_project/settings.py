@@ -90,7 +90,7 @@ ROOT_URLCONF = 'tsm_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'tsm_react_app/build')],
+        'DIRS': [os.path.join(BASE_DIR, 'tsm-react-app/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,7 +104,7 @@ TEMPLATES = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'tsm_react_app/build/static'),
+    os.path.join(BASE_DIR, 'tsm-react-app/build/static'),
 ]
 
 WSGI_APPLICATION = 'tsm_project.wsgi.application'

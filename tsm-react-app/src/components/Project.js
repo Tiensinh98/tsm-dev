@@ -6,14 +6,9 @@ import Button from 'react-bootstrap/Button';
 import BasicTable from './Table';
 import axios from 'axios';
 
-
-const createData = ( name, calories, fat, carbs, protein) => {
-  return { name, calories, fat, carbs, protein };
-}
-
 const PROJECT_FIELD_TO_GUI_NAME = {
-  issue_name: "Project Name",
-  project_leader: "Leader",
+  name: "Project Name",
+  leader: "Leader",
   start_date: "Start Date",
   due_date: "Due Date",
   status: "Status",
@@ -29,15 +24,18 @@ const Project = () => {
   useEffect(() => {
     const fetchTableData = async () => {
       const response = await axios.get("/api/projects/");
-      let data = [];
-      response.data.forEach(d => {
-        const sd = Object.fromEntries(
-          Object.entries(d).filter(([key, _]) => (Object.keys(PROJECT_FIELD_TO_GUI_NAME).concat(["id"])).includes(key))
-        );
-        data.push(sd);
-
-      });
-      setRows(data);
+      debugger;
+      let rows = [];
+      const tableData = response.data;
+      for (const data of tableData) {
+        let row = {};
+        for (const field of Object.keys(PROJECT_FIELD_TO_GUI_NAME)) {
+          row[field] = data[field];
+        }
+        row["id"] = data.id;
+        rows.push(row);
+      }
+      setRows(rows);
     }
     fetchTableData();
   }, []); // run useEffect when variables in squared bracket changed
