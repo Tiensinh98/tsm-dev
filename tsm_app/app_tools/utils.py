@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import tsm_app.app_tools.database as db
 
@@ -35,7 +36,13 @@ def truncate_all_tables():
     for model_str, model in db.__dict__.items():
         if model_str.startswith('__'):
             continue
-        if model_str in ['user_models', 'issue_models',
-                         'staff_models', 'device_models', 'team_models']:
+        if model_str in ['user_models', 'issue_models', 'staff_models',
+                         'device_models', 'team_models', 'model_mixin']:
             continue
         model.objects.all().delete()
+
+
+def get_datetime_from_str(timestamp: str, format: str='%Y-%m-%d'):
+    if timestamp is None:
+        return
+    return datetime.strptime(timestamp, format)

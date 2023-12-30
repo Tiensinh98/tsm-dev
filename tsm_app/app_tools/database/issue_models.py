@@ -1,9 +1,7 @@
-import logging
-
-from datetime import datetime
 from django.db import models
 
 from . import user_models
+from .. import utils
 
 __all__ = [
     'Project', 'Task'
@@ -72,8 +70,8 @@ class Issue(models.Model):
         docstring
         """
         return {
-            'start_date': get_datetime_from_str,
-            'due_date': get_datetime_from_str
+            'start_date': utils.get_datetime_from_str,
+            'due_date': utils.get_datetime_from_str
         }
 
 
@@ -91,6 +89,7 @@ class Project(Issue):
         leader_id = None
         if self.leader is not None:
             leader_id = self.leader.id
+        # TODO: consider returning JSON of leader rather than just leader id
         return {
             **self.issue_ptr.get_json_value(),
             'leader_id': leader_id
@@ -168,9 +167,3 @@ class Task(Issue):
             'line_project_id': lambda project_id: (Project.objects.get(id=project_id), 'line_project'),
             'assignee_id': lambda assignee_id: (user_models.CustomUser.objects.get(id=assignee_id), 'assignee')
         }
-
-
-def get_datetime_from_str(timestamp: str, format: str='%Y-%m-%d'):
-    if timestamp is None:
-        return
-    return datetime.strptime(timestamp, format)

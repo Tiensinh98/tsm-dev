@@ -39,9 +39,7 @@ class CustomUser(auth_models.AbstractUser):
             'email': self.email,
             'username': self.username,
             'first_name': self.first_name,
-            'last_name': self.last_name,
-            'profile_id': self.profile.id,
-            'team_id': self.team.id
+            'last_name': self.last_name
         }
 
     @staticmethod

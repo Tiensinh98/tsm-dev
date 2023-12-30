@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from . import issue_models
+from .. import utils
 
 __all__ = ['Device']
 
@@ -54,4 +55,16 @@ class Device(models.Model):
             'basic_config': self.basic_config,
             'status': self.status,
             'project_id': project_id
+        }
+
+    @staticmethod
+    def from_json_value(json_value):
+        return Device(**json_value)
+
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        return {
+            'purchase_date': utils.get_datetime_from_str,
+            'handover_date': utils.get_datetime_from_str,
+            'project_id': lambda project_id: (issue_models.Project.objects.get(id=project_id), 'project')
         }
