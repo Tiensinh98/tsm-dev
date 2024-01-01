@@ -16,11 +16,12 @@ import AdbIcon from '@mui/icons-material/Adb';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-interface Config {
-  content: React.ReactNode
+interface AppBarProps {
+  appName: string;
 }
 
-export const ResponsiveAppBar: React.FC<Config> = (props) => {
+export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
+  const { appName } = props;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -59,7 +60,7 @@ export const ResponsiveAppBar: React.FC<Config> = (props) => {
               textDecoration: 'none',
             }}
           >
-            TSM
+            {appName}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -115,7 +116,7 @@ export const ResponsiveAppBar: React.FC<Config> = (props) => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            {appName}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -160,9 +161,6 @@ export const ResponsiveAppBar: React.FC<Config> = (props) => {
           </Box>
         </Toolbar>
       </Container>
-      <Container>
-      </Container>
-      {props.content}
     </AppBar>
   );
 };

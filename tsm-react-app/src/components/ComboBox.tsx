@@ -1,50 +1,56 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Button } from '@mui/material';
 
-interface ComboBoxOption {
+interface OptionProps {
   text: string
-  value: any
+  value: string
+  icon?: React.ReactNode;
 }
 
-interface ComboBoxModel {
-  options: ComboBoxOption[]
+interface ComboBoxProps {
+  options: OptionProps[]
   title?: string | null
-  onChange?: (value: any) => void
+  onChange?: (value: string) => void
 }
 
 
-export const ComboBox: React.FC<ComboBoxModel> = (props) => {
-  const [value, setValue] = React.useState('');
+export const ComboBox: React.FC<ComboBoxProps> = (props) => {
+  const { options, title, onChange } = props;
+  const [currentValue, setCurrentValue] = React.useState<string>(options[0].value);
 
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-    if (props.onChange) {
-      props.onChange(event.target.value);
+  const handleChange = (event: SelectChangeEvent) => {
+    let value: string = event.target.value;
+    setCurrentValue(value);
+    if (onChange) {
+      onChange(value);
     }
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <div>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{props.title}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={value}
-          label={props.title}
+          value={currentValue}
+          label={title}
           onChange={handleChange}
         >
           {
             props.options.map(option => (
-              <MenuItem value={option.value}>{option.text}</MenuItem>
+              <MenuItem value={option.value}>
+                {option.icon ? <Button startIcon={option.icon}></Button> : null}
+                {option.text}
+              </MenuItem>
             ))
           }
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
 } 
