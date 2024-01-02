@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ResponsiveAppBar } from '../components/AppBar';
+import { ResponsiveAppBar } from '../appbar/AppBar';
 import axios from 'axios';
 import { Box } from '@mui/material';
 import { ReviewCard } from '../components/Card';
@@ -57,7 +57,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <Box>
-      <ResponsiveAppBar appName="TSM" />
+      <ResponsiveAppBar />
       {projectData.map(project =>
         <ReviewCard
             primaryKey={project["id"]}

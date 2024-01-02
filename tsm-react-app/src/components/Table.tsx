@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 
 
 interface TableColumnProps {
-  id: string
+  key: string
   label: string
   minWidth: number
   align?: any
@@ -25,7 +25,7 @@ interface TableProps {
   rowsPerPageOptions?: number[] | null
 };
 
-export const StickyHeadTable: React.FC<TableProps> = (props) => {
+export const CustomTable: React.FC<TableProps> = (props) => {
   const [page, setPage] = React.useState(props.page);
   const [rowsPerPage, setRowsPerPage] = React.useState(props.rowsPerPage);
 
@@ -46,7 +46,7 @@ export const StickyHeadTable: React.FC<TableProps> = (props) => {
             <TableRow>
               {props.columns.map((column) => (
                 <TableCell
-                  key={column.id}
+                  key={column.key}
                   align={column.align}
                   style={{ minWidth: column.minWidth , backgroundColor: "lightblue"}}
                 >
@@ -62,9 +62,9 @@ export const StickyHeadTable: React.FC<TableProps> = (props) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {props.columns.map((column) => {
-                      const value = row[column.id];
+                      const value = row[column.key];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={column.key} align={column.align}>
                           {column.format ? <column.format {...value}/> : value}
                         </TableCell>
                       );
