@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-import { ProjectDetailTable } from './ProjectDetalTable';
+import { ProjectDetailTable } from './ProjectDetailTable';
 import { ResponsiveAppBar } from '../appbar/AppBar';
 
 
