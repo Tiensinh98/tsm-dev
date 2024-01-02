@@ -21,12 +21,12 @@ interface EmptyDialogProps {
     title: string;
     width?: number;
     height?: number;
-    content?: React.ReactNode;
+    children?: React.ReactNode;
     onAccepted?: () => void;
 };
 
 export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
-  const { title, content} = props;
+  const { title, children} = props;
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
@@ -56,7 +56,7 @@ export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {content}
+          {children}
         </DialogContent>
         <DialogActions>
           <Button variant='contained' autoFocus onClick={handleClose}>

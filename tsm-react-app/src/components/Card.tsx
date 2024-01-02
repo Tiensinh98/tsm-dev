@@ -10,8 +10,6 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import Delete from '@mui/icons-material/Delete';
 import { CustomMenu } from './Menu';
 
@@ -24,7 +22,7 @@ interface ExpandMoreProps extends IconButtonProps {
 interface ReviewCardProps {
   primaryKey: number;
   avatar: React.ReactNode;
-  title: string;
+  title: React.ReactNode;
   subHeader: string;
   image?: string;
   description?: string;

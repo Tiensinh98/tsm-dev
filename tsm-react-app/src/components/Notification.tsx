@@ -6,6 +6,7 @@ import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert';
 interface NotificationProps {
     severity?: AlertColor | undefined;
     message: string;
+    open: boolean;
 };
 
 
@@ -18,7 +19,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 export const Notification: React.FC<NotificationProps> = (props) => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(props.open);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') return;
