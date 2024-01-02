@@ -16,6 +16,10 @@ interface CustomMenuProps {
   open: boolean;
   anchorEl?: any;
   keepMounted?: any
+  sx?: any
+  id?: string;
+  anchorOrigin?: any
+  transformOrigin?: any
   onClose?: () => void;
 }
 
@@ -25,7 +29,7 @@ export const CustomMenu: React.FC<CustomMenuProps> = (props) => {
   return (
     <Menu open={open} id="simple-menu" {...other}>
       {items.map(item => 
-        <MenuItem onClick={item.onClick}>
+        <MenuItem key={item.text} onClick={item.onClick}>
           <Stack direction="row" spacing={5}>
             <ListItemText>{item.text}</ListItemText>
             <ListItemIcon>

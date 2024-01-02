@@ -5,13 +5,13 @@ import MenuItem from '@mui/material/MenuItem';
 import { deepOrange } from '@mui/material/colors';
 import { Link } from './Link';
 
-interface AvartarProps {
+interface AvatarProps {
   alt: string;
   link: string;
   src?: string;
 };
 
-export const ImageAvatar: React.FC<AvartarProps> = (props) => {
+export const ImageAvatar: React.FC<AvatarProps> = (props) => {
   const { alt, src, link } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);

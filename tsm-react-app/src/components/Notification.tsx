@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps, AlertColor } from '@mui/material/Alert';
 
 
-interface NotificationModel {
+interface NotificationProps {
     severity?: AlertColor | undefined;
     message: string;
 };
@@ -17,7 +17,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 
-export const Notification: React.FC<NotificationModel> = (props) => {
+export const Notification: React.FC<NotificationProps> = (props) => {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {

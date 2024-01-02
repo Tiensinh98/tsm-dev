@@ -43,7 +43,7 @@ export const ComboBox: React.FC<ComboBoxProps> = (props) => {
         >
           {
             props.options.map(option => (
-              <MenuItem value={option.value}>
+              <MenuItem key={option.value} value={option.value}>
                 {option.icon ? <Button startIcon={option.icon}></Button> : null}
                 {option.text}
               </MenuItem>

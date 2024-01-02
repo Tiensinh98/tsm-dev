@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 
-interface TableColumnModel {
+interface TableColumnProps {
   id: string
   label: string
   minWidth: number
@@ -17,15 +17,15 @@ interface TableColumnModel {
   format?: any
 };
 
-interface TableMode {
+interface TableProps {
   page: number
   rowsPerPage: number
-  columns: TableColumnModel[]
+  columns: TableColumnProps[]
   rows: any[]
   rowsPerPageOptions?: number[] | null
 };
 
-export const StickyHeadTable: React.FC<TableMode> = (props) => {
+export const StickyHeadTable: React.FC<TableProps> = (props) => {
   const [page, setPage] = React.useState(props.page);
   const [rowsPerPage, setRowsPerPage] = React.useState(props.rowsPerPage);
 

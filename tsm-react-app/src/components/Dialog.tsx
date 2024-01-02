@@ -22,7 +22,7 @@ interface EmptyDialogProps {
     width?: number;
     height?: number;
     content?: React.ReactNode;
-    onAcepted?: () => void;
+    onAccepted?: () => void;
 };
 
 export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
