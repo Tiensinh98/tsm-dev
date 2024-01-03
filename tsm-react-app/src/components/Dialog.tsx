@@ -19,19 +19,23 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 interface EmptyDialogProps {
     title: string;
-    width?: number;
-    height?: number;
     children?: React.ReactNode;
     onAccepted?: () => void;
+    onClose?: () => void;
 };
 
 export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
-  const { title, children} = props;
+  const { title, children, onAccepted, onClose} = props;
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
     setOpen(false);
+    if (onClose) onClose();
   };
+
+  const handleAccepted = () => {
+    if (onAccepted) onAccepted();
+  }
 
   return (
     <React.Fragment>
@@ -59,7 +63,7 @@ export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
           {children}
         </DialogContent>
         <DialogActions>
-          <Button variant='contained' autoFocus onClick={handleClose}>
+          <Button variant='contained' autoFocus onClick={handleAccepted}>
             OK
           </Button>
         </DialogActions>

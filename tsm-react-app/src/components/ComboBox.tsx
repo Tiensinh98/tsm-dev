@@ -20,7 +20,7 @@ interface ComboBoxProps {
 
 
 export const ComboBox: React.FC<ComboBoxProps> = (props) => {
-  const { options, title, onChange, value } = props;
+  const { options, title, onChange, value, ...other } = props;
   const [currentValue, setCurrentValue] = React.useState<string>(value);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -32,7 +32,7 @@ export const ComboBox: React.FC<ComboBoxProps> = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{mt: 1}}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{props.title}</InputLabel>
         <Select

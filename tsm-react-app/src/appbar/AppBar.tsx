@@ -12,8 +12,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { CreateTaskDialog } from './CreateTaskDialog';
 
-const pages = ['Project', 'Create'];
+const pages = ['Project'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 interface AppBarProps {
@@ -25,6 +26,7 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [ openCreateDialog, setOpenCreateDialog ] = React.useState(false);
 
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
@@ -41,6 +43,19 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
     setAnchorElUser(null);
   };
 
+  const handleShowCreateDialog = () => {
+    setOpenCreateDialog(true);
+  }
+
+  const handleHideCreateDialog = () => {
+    setOpenCreateDialog(false);
+  }
+
+  const createTask = (project: string, assignee: string) => {
+    console.log(project);
+    setOpenCreateDialog(false);
+  }
+
   return (
     <Box>
       <AppBar position="static">
@@ -51,7 +66,7 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/tsm-app/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -99,6 +114,9 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem key='create' onClick={handleShowCreateDialog}>
+                    <Typography textAlign="center">Create</Typography>
+                </MenuItem>
               </Menu>
             </Box>
             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -106,7 +124,7 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
               variant="h5"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/tsm-app/"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -130,6 +148,13 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
                   {page}
                 </Button>
               ))}
+              <Button
+                  key='create'
+                  onClick={handleShowCreateDialog}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                Create
+              </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -165,7 +190,12 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
         </Container>
       </AppBar>
       <Box sx={{direction: "column"}}>{children}</Box>
+      {openCreateDialog ? 
+        <CreateTaskDialog 
+          onAccepted={createTask} 
+          onClose={handleHideCreateDialog}/> 
+        : null
+      }
     </Box>
-    
   );
 };
