@@ -1,4 +1,4 @@
 django-admin==2.0.2
-Django==5.0
+Django==5.0.0
 djangorestframework==3.14.0
 pytest==7.4.0
