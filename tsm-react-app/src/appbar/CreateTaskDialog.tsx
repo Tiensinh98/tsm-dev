@@ -50,7 +50,7 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = (props) => {
   }, []);
 
   const handleOnAccepted = () => {
-    onAccepted(project.value, asignee.value);
+    onAccepted(project.value, assignee.value);
   }
 
   const handleOnChange = (event: React.ChangeEvent) => {
