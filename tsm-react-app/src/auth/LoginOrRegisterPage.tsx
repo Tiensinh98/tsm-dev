@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { GroupTab } from '../components/GroupTab';
 import { LoginForm, LoginCredsProps } from './LoginForm';
 import { RegisterForm, RegisterCredsProps } from './RegisterForm';
+import { Container } from '@mui/material';
 
 
 export const AuthenticationPage: React.FC = () => {
@@ -12,19 +13,26 @@ export const AuthenticationPage: React.FC = () => {
   const [ registerCredentials, setRegisterCredentials ] = React.useState<RegisterCredsProps | null>(null);
   const [ loginCredentials, setLoginCredentials ] = React.useState<LoginCredsProps | null>(null);
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (!loginCredentials) return;
     const { username, password } = loginCredentials;
-    try {
-      const response = await axios.post("/api/login/", {
-        username, password
-      });
-      if (!response.data.success) navigate("/login/");
-      else navigate("/tsm-app/");
+    debugger;
+    const f = async () => {
+      try {
+        debugger;
+        const response = await axios.post("/api/login/", {
+          username, password
+        });
+        console.log("Log: ")
+        console.log(response)
+        if (!response.data.success) navigate("/login/");
+        else navigate("/tsm-app/");
+      }
+      catch {
+        navigate("/login/");
+      }
     }
-    catch {
-      navigate("/login/");
-    }
+    f();
   };
 
   const handleRegister = async () => {
@@ -39,14 +47,24 @@ export const AuthenticationPage: React.FC = () => {
 
   return (
     <GroupTab labels={["Login", "Register"]}>
-      <form onSubmit={handleLogin} style={{ marginTop: '10px' }}>
-        <LoginForm 
-          onCredsChange={(creds: LoginCredsProps) => setLoginCredentials(creds)}/>
-      </form>
-      <form onSubmit={handleRegister} style={{ marginTop: '10px' }}>
-        <RegisterForm 
-          onCredsChange={(creds: RegisterCredsProps) => setRegisterCredentials(creds)}/>
-      </form>
+      <Container>
+        <form 
+          method="POST" 
+          onSubmit={handleLogin} 
+          style={{ marginTop: '10px' }}>
+          <LoginForm 
+            onCredsChange={(creds: LoginCredsProps) => setLoginCredentials(creds)}/>
+        </form>
+      </Container>
+      <Container>
+        <form 
+          method="POST" 
+          onSubmit={handleRegister} 
+          style={{ marginTop: '10px' }}>
+            <RegisterForm
+              onCredsChange={(creds: RegisterCredsProps) => setRegisterCredentials(creds)}/>
+        </form>
+      </Container>
     </GroupTab>
   );
 };

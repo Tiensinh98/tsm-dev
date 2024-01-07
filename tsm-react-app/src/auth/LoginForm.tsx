@@ -21,10 +21,8 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
   })
 
   const handleChangeCreds = (name: string, value: string) => {
-    let newCreds: any = {};
-    newCreds[name] = value;
-    setCurrentInfo({...currentCreds, ...newCreds});
-    if (onCredsChange) onCredsChange({...currentCreds, ...newCreds});
+    setCurrentInfo({...currentCreds, [ name ]: value});
+    if (onCredsChange) onCredsChange({...currentCreds, [ name ]: value});
   }
 
   return (
@@ -40,7 +38,10 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
         name="password"
         type="password"
         onChange={handleChangeCreds}/>
-      <Button variant="contained" type="submit">
+      <Button  
+        sx={{mt: 1}}
+        variant="contained"
+        type="submit">
         Login
     </Button>
     </Box>

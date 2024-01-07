@@ -41,10 +41,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = (props) => {
             }
         }
     }
-    let newCreds: any = {};
-    newCreds[name] = value;
-    setCurrentInfo({...currentCreds, ...newCreds});
-    if (onCredsChange) onCredsChange({...currentCreds, ...newCreds});
+    setCurrentInfo({...currentCreds, [name] : value});
+    if (onCredsChange) onCredsChange({...currentCreds, [name] : value});
   }
 
   return (
@@ -72,7 +70,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = (props) => {
       name="password2"
       type="password"
       onChange={handleChangeCreds}/>
-    <Button variant="contained" type="submit" disabled={submitDisabled}>
+    <Button 
+      sx={{mt: 1}} 
+      variant="contained" 
+      type="submit" 
+      disabled={submitDisabled}>
       Register
     </Button>
     </Box>
