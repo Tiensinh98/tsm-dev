@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { CreateTaskDialog } from './CreateTaskDialog';
+import { ProjectDropDownButton } from './dropdown/ProjectDropDownButton';
+import { Grid } from '@mui/material';
 
 const pages = ['Project'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -139,15 +141,10 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
               TSM
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+             <ProjectDropDownButton
+                key='project' 
+                onClick={handleCloseNavMenu}
+              /> 
               <Button
                   key='create'
                   onClick={handleShowCreateDialog}
@@ -189,7 +186,9 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box sx={{direction: "column"}}>{children}</Box>
+      <Grid container>
+        {children}
+      </Grid>
       {openCreateDialog ? 
         <CreateTaskDialog 
           onAccepted={createTask} 

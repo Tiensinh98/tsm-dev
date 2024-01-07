@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import TextField from '@mui/material/TextField';
 import { EmptyDialog } from '../components/Dialog';
@@ -64,7 +64,7 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = (props) => {
       onAccepted={handleOnAccepted}
       onClose={onClose}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+      <Grid item>
         <ComboBox
           title="Task"
           options={projects}
@@ -94,7 +94,7 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = (props) => {
           variant="outlined"
           onChange={handleOnChange}
         />
-      </Box >
+      </Grid>
     </EmptyDialog>
   );
 };
