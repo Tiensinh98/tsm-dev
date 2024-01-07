@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Grid } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -60,7 +61,9 @@ export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {children}
+          <Grid container>
+            {children}
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button variant='contained' autoFocus onClick={handleAccepted}>

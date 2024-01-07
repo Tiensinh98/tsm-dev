@@ -25,6 +25,7 @@ export const DirectoryNavigator: React.FC<DirectoryNavigatorProps> = (props) => 
             color={index === directories.length - 1 ? "text.primary" : "inherit"}
             href={directory.href}
             aria-current={index === directories.length - 1 ? "page" : undefined}
+            fontSize={13}
           >
           {directory.dir}
           </Link>)

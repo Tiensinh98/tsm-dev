@@ -26,8 +26,9 @@ interface CustomMenuProps {
 
 export const CustomMenu: React.FC<CustomMenuProps> = (props) => {
   const { items, open, ...other } = props;
+
   return (
-    <Menu open={open} id="simple-menu" {...other}>
+    <Menu open={open} {...other}>
       {items.map(item => 
         <MenuItem key={item.text} onClick={item.onClick}>
           <Stack direction="row" spacing={5}>

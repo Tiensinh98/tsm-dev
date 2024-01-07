@@ -21,7 +21,6 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     <TextField
       sx={{mt: 1}}
       fullWidth
-      id="outlined-basic"
       name={name}
       label={label}
       value={value}
