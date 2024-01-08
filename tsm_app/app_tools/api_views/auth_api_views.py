@@ -2,6 +2,7 @@ import typing as tp
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, views as auth_views
 from django.contrib.auth.forms import PasswordResetForm
+from django.middleware.csrf import get_token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -58,6 +59,13 @@ def password_change(request) -> tp.Union[None, JsonResponse]:
         return JsonResponse({'success': True, 'message': 'Change password successfully'})
     except Exception as e:
         return JsonResponse({'success': False, 'message': e})
+
+
+@api_view(['GET'])
+def get_csrf_token(request) -> tp.Union[None, JsonResponse]:
+    # Use csrf_token as needed, e.g., pass it to a template or a JSON response
+    csrf_token = get_token(request)
+    return JsonResponse({'csrf_token': csrf_token})
 
 
 class CustomPasswordResetView(auth_views.PasswordResetView):

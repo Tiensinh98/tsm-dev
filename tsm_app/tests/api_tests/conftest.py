@@ -23,7 +23,7 @@ def super_client():
     user = db.CustomUser.objects.create_user(
         username='testuser', password='testpassword',
         is_superuser=True, email='test_user@gmail.com')
-    client = APIClient()
+    client = APIClient(enforce_csrf_checks=True)
     client.force_authenticate(user=user)
     return client
 
@@ -33,7 +33,7 @@ def basic_client():
     db.CustomUser.objects.create_user(
         username='testuser', email='test_user@gmail.com',
         password='testpassword', is_superuser=False)
-    return APIClient()
+    return APIClient(enforce_csrf_checks=True)
 
 @pytest.fixture()
 def dataset():

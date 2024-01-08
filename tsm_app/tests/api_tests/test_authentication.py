@@ -23,29 +23,37 @@ class TestAuthenticationAPIs:
             'password': '123456'
         })
         api_test_case.assertEqual(response.json(), {'success': True})
-        response = basic_client.post('/api/logout/')
+        response = basic_client.get('/api/csrf-token/')
+        csrf_token = response.json().get('csrf_token') # or from response.cookies['csrftoken']
+        response = basic_client.post('/api/logout/', HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.json(), {'success': True})
 
     def test_change_password(self, api_test_case, basic_client):
         response = basic_client.post('/api/register/', {
-            'username': 'andrew@gmail.com',
+            'email': 'andrew@gmail.com',
+            'username': 'andrew',
             'password': '123456'
         })
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
         api_test_case.assertEqual(response.json(), {'success': True, 'message': 'Create User successfully'})
         response = basic_client.post('/api/login/', {
-            'username': 'andrew@gmail.com',
+            'username': 'andrew',
             'password': '123456'
         })
         api_test_case.assertEqual(response.json(), {'success': True})
+
+        # get csrf token
+        response = basic_client.get('/api/csrf-token/')
+        csrf_token = response.json().get('csrf_token')
+        #
         response = basic_client.post('/api/password-change/', {
-            'username': 'andrew@gmail.com',
+            'username': 'andrew',
             'password': '1234567'
-        })
+        }, HTTP_X_CSRFTOKEN=csrf_token, format='json')
         api_test_case.assertEqual(response.json(), {'success': True, 'message': 'Change password successfully'})
         # login again after changing password
         response = basic_client.post('/api/login/', {
-            'username': 'andrew@gmail.com',
+            'username': 'andrew',
             'password': '1234567'
         })
         api_test_case.assertEqual(response.json(), {'success': True})
