@@ -1,5 +1,6 @@
 import typing as tp
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
@@ -140,6 +141,7 @@ def get_create_model(model_str):
 
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
+    @csrf_protect
     def create_model(request) -> JsonResponse:
         """
         This POST API is used to create a new Model with some fields

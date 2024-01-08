@@ -46,12 +46,15 @@ class TestIssueAPIs:
             'description': None,
             'leader_id': None
         })
-
+        # generate csrf token
+        response = super_client.get('/api/csrf-token/')
+        csrf_token = response.json().get('csrf_token')
+        #
         response = super_client.post('/api/projects/add/', {
             'id': 3,
             'name': 'Project 3',
             'start_date': '2023-12-22',
-        })
+        }, HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.status_code, status.HTTP_201_CREATED)
         api_test_case.assertEqual(response.json(), {'message': f'Create Project successfully'})
         init_project_data.append(
@@ -91,7 +94,7 @@ class TestIssueAPIs:
             'name': 'Project 4',
             'start_date': '2023-01-01',
             'leader_id': 2
-        })
+        }, HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.status_code, status.HTTP_201_CREATED)
         api_test_case.assertEqual(response.json(), {'message': f'Create Project successfully'})
         response = super_client.get('/api/projects/filter/', {
@@ -175,13 +178,17 @@ class TestIssueAPIs:
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
         api_test_case.assertEqual(response.json(), init_task_data[1])
 
+        # generate csrf token
+        response = super_client.get('/api/csrf-token/')
+        csrf_token = response.json().get('csrf_token')
+        #
         response = super_client.post('/api/tasks/add/', {
             'id': 5,
             'name': 'Task 3',
             'start_date': '2023-12-22',
             'line_project_id': 2,
             'assignee_id': 1
-        })
+        }, HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.status_code, status.HTTP_201_CREATED)
         api_test_case.assertEqual(response.json(), {'message': f'Create Task successfully'})
         init_task_data.append(
@@ -231,7 +238,7 @@ class TestIssueAPIs:
             'description': None,
             'line_project_id': 1,
             'assignee_id': 2
-        })
+        }, HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.status_code, status.HTTP_201_CREATED)
         api_test_case.assertEqual(response.json(), {'message': f'Create Task successfully'})
         response = super_client.get('/api/tasks/filter/', {
