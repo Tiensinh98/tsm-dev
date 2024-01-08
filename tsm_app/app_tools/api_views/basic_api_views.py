@@ -91,7 +91,7 @@ def get_get_or_patch_or_delete_model(model_str):
                         else:
                             value = converter(parameter)
                             if isinstance(value, tuple):
-                                value = value[0]
+                                value, field = value
                         setattr(model, field, value)
                     model.save()
                 except model_class.DoesNotExist as e:

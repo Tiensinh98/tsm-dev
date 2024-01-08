@@ -57,8 +57,8 @@ class Issue(models.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'start_date': self.start_date,
-            'due_date': self.due_date,
+            'startDate': self.start_date,
+            'dueDate': self.due_date,
             'priority': self.priority,
             'status': self.status,
             'description': self.description,
@@ -70,8 +70,8 @@ class Issue(models.Model):
         docstring
         """
         return {
-            'start_date': utils.get_datetime_from_str,
-            'due_date': utils.get_datetime_from_str
+            'startDate': lambda date: (utils.get_datetime_from_str(date), 'start_date'),
+            'dueDate': lambda date: (utils.get_datetime_from_str(date), 'due_date'),
         }
 
 
@@ -86,13 +86,16 @@ class Project(Issue):
         return f"{self.get_issue_info()} Leader: {self.leader}"
 
     def get_json_value(self):
-        leader_id = None
+        leader_json = None
         if self.leader is not None:
-            leader_id = self.leader.id
-        # TODO: consider returning JSON of leader rather than just leader id
+            leader_json = {
+                "id": self.leader.id,
+                "firstName": self.leader.first_name,
+                "lastName": self.leader.last_name
+            }
         return {
             **self.issue_ptr.get_json_value(),
-            'leader_id': leader_id
+            'leader': leader_json
         }
 
     @staticmethod
@@ -111,7 +114,7 @@ class Project(Issue):
     def get_non_primitive_field_to_converter() -> dict:
         return {
             **Issue.get_non_primitive_field_to_converter(),
-            'leader_id': lambda leader_id: (user_models.CustomUser.objects.get(id=leader_id), 'leader')
+            'leader': lambda leader_id: (user_models.CustomUser.objects.get(id=leader_id), 'leader')
         }
 
 
@@ -140,13 +143,22 @@ class Task(Issue):
         return f"{self.get_issue_info()} Project: {self.line_project} Assignee: {self.assignee}"
 
     def get_json_value(self):
-        assignee_id = None
+        assignee_json = None
         if self.assignee is not None:
-            assignee_id = self.assignee.id
+            assignee_json = {
+                "id": self.assignee.id,
+                "firstName": self.assignee.first_name,
+                "lastName": self.assignee.last_name
+            }
+        line_project_json = self.line_project.get_json_value()
         return {
             **self.issue_ptr.get_json_value(),
-            'line_project_id': self.line_project.id, # project foreign key cannot be null
-            'assignee_id': assignee_id
+            'lineProject': {
+                "name": line_project_json["name"],
+                "id": line_project_json["id"],
+                "leader": line_project_json["leader"],
+            }, # project foreign key cannot be null
+            'assignee': assignee_json
         }
 
     @staticmethod
@@ -164,6 +176,6 @@ class Task(Issue):
     def get_non_primitive_field_to_converter() -> dict:
         return {
             **Issue.get_non_primitive_field_to_converter(),
-            'line_project_id': lambda project_id: (Project.objects.get(id=project_id), 'line_project'),
-            'assignee_id': lambda assignee_id: (user_models.CustomUser.objects.get(id=assignee_id), 'assignee')
+            'lineProject': lambda project_id: (Project.objects.get(id=project_id), 'line_project'),
+            'assignee': lambda assignee_id: (user_models.CustomUser.objects.get(id=assignee_id), 'assignee')
         }

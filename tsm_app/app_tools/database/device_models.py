@@ -41,20 +41,25 @@ class Device(models.Model):
         return f"{self.device_type}({self.device_name} is used by {self.project})"
 
     def get_json_value(self):
-        project_id = None
+        project_json = None
         if self.project is not None:
-            project_id = self.project.id
+            json = self.project.get_json_value()
+            project_json = {
+                "name": json["name"],
+                "id": json["id"],
+                "leader": json["leader"]
+            }
         return {
             'id': self.id,
-            'device_name': self.device_name,
-            'device_type': self.device_type,
-            'purchase_date': self.purchase_date,
+            'deviceName': self.device_name,
+            'deviceType': self.device_type,
+            'purchaseDate': self.purchase_date,
             'supplier': self.supplier,
             'invoice': self.invoice,
-            'handover_date': self.handover_date,
-            'basic_config': self.basic_config,
+            'handoverDate': self.handover_date,
+            'basicConfig': self.basic_config,
             'status': self.status,
-            'project_id': project_id
+            'project': project_json
         }
 
     @staticmethod
@@ -64,7 +69,7 @@ class Device(models.Model):
     @staticmethod
     def get_non_primitive_field_to_converter() -> dict:
         return {
-            'purchase_date': utils.get_datetime_from_str,
-            'handover_date': utils.get_datetime_from_str,
-            'project_id': lambda project_id: (issue_models.Project.objects.get(id=project_id), 'project')
+            "purchaseDate": lambda date: (utils.get_datetime_from_str(date), "purchase_date"),
+            "handover_date": lambda date: (utils.get_datetime_from_str(date), "handover_date"),
+            "project": lambda project_id: (issue_models.Project.objects.get(id=project_id), 'project')
         }

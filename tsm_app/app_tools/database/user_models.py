@@ -1,4 +1,3 @@
-import logging
 import uuid
 
 from django.db import models
@@ -38,8 +37,8 @@ class CustomUser(auth_models.AbstractUser):
             'id': self.id,
             'email': self.email,
             'username': self.username,
-            'first_name': self.first_name,
-            'last_name': self.last_name
+            'firstName': self.first_name,
+            'lastName': self.last_name
         }
 
     @staticmethod
@@ -82,11 +81,15 @@ class Profile(models.Model):
     def get_json_value(self):
         return {
             'id': self.id,
-            'supervisor_id': self.supervisor.id,
-            'user_id': self.user.id,
+            'supervisor': {
+                'id': self.supervisor.id,
+                'firstName': self.supervisor.first_name,
+                'lastName': self.supervisor.last_name
+            },
+            'userId': self.user.id,
             'role': self.role,
             'dob': self.dob,
-            'profile_image': self.profile_image,
+            'profileImage': self.profile_image,
             'description': self.description
         }
 
@@ -117,6 +120,6 @@ class Telephone(models.Model):
     def get_json_value(self):
         return {
             'tel': self.tel,
-            'profile_id': self.profile.id,
-            'user_id': self.profile.user.id
+            'profileId': self.profile.id,
+            'userId': self.profile.user.id
         }

@@ -1,7 +1,5 @@
 from django.db import models
 
-from . import user_models
-
 __all__ = ['Staff']
 
 

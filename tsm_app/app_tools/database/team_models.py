@@ -28,13 +28,17 @@ class Team(models.Model):
         return f'Team(name={self.name}, leader= {self.leader})'
 
     def get_json_value(self):
-        leader_id = None
+        leader_json = None
         if self.leader is not None:
-            leader_id = self.leader.id
+            leader_json = {
+                "id": self.leader.id,
+                "firstName": self.leader.first_name,
+                "lastName": self.leader.last_name
+            }
         return {
-            'id': self.id,
-            'name': self.name,
-            'department': self.department,
-            'description': self.description,
-            'leader_id': leader_id,
+            "id": self.id,
+            "name": self.name,
+            "department": self.department,
+            "description": self.description,
+            "leader": leader_json,
         }
