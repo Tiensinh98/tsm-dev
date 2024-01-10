@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import {
@@ -18,6 +20,7 @@ import {
 
 import { CreateTaskDialog } from './CreateTaskDialog';
 import { ProjectDropDownButton } from './dropdown/ProjectDropDownButton';
+import { CustomMenu } from '../components/Menu';
 
 
 const pages = ['Project'];
@@ -29,6 +32,20 @@ interface AppBarProps {
 
 export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
   const { children } = props;
+  const navigate = useNavigate();  // Use the useNavigate hook
+
+  const settingModels = [
+    { text: "Logout", value: "", onClick: async () => {
+      try {
+        const response = await axios.post("/api/logout/");
+        if (!response.data.success) navigate("/tsm-app/");
+        else navigate("/logout/");
+      }
+      catch {
+        navigate("/tsm-app/");
+      }
+    }}
+  ]
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -164,7 +181,22 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
                   <Avatar alt="Remy Sharp" src="#" />
                 </IconButton>
               </Tooltip>
-              <Menu
+              <CustomMenu
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+                items={settingModels}
+              />
+              {/* <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
@@ -185,7 +217,7 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
-              </Menu>
+              </Menu> */}
             </Box>
           </Toolbar>
         </Container>

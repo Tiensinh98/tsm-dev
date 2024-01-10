@@ -22,7 +22,7 @@ def login(request) -> tp.Union[None, JsonResponse]:
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def logout(request) -> tp.Union[None, JsonResponse]:
     user = request.user
     if user.is_authenticated:

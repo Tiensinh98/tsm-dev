@@ -14,6 +14,7 @@ def logout(request):
     return render(request, 'index.html', {})
 
 def tsm_app(request):
+    # redirect when user is logged out
     return render(request, 'index.html', {})
 
 def tsm_app_projects(request):

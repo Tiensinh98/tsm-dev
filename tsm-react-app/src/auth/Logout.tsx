@@ -6,7 +6,6 @@ import {
 } from '@mui/material';
 
 export const LogoutPage: React.FC = () => {
-
   return (
     <Container>
       <Typography>You've just logged out!</Typography>
