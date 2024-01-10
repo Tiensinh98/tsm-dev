@@ -65,7 +65,7 @@ def password_change(request) -> tp.Union[None, JsonResponse]:
 def get_csrf_token(request) -> tp.Union[None, JsonResponse]:
     # Use csrf_token as needed, e.g., pass it to a template or a JSON response
     csrf_token = get_token(request)
-    return JsonResponse({'csrf_token': csrf_token})
+    return JsonResponse({'csrfToken': csrf_token})
 
 
 class CustomPasswordResetView(auth_views.PasswordResetView):

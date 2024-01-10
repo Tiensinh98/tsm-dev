@@ -52,7 +52,7 @@ class TestIssueAPIs:
         })
         # generate csrf token
         response = super_client.get('/api/csrf-token/')
-        csrf_token = response.json().get('csrf_token')
+        csrf_token = response.json().get('csrfToken')
         #
         response = super_client.post('/api/projects/add/', {
             'id': 3,
@@ -219,7 +219,7 @@ class TestIssueAPIs:
 
         # generate csrf token
         response = super_client.get('/api/csrf-token/')
-        csrf_token = response.json().get('csrf_token')
+        csrf_token = response.json().get('csrfToken')
         #
         response = super_client.post('/api/tasks/add/', {
             'id': 5,

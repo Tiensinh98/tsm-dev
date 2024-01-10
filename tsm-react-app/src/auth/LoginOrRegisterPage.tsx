@@ -12,34 +12,43 @@ export const AuthenticationPage: React.FC = () => {
 
   const [ registerCredentials, setRegisterCredentials ] = React.useState<RegisterCredsProps | null>(null);
   const [ loginCredentials, setLoginCredentials ] = React.useState<LoginCredsProps | null>(null);
+  const [ csrfToken, setCsrfToken] = React.useState('');
 
-  const handleLogin = () => {
+  React.useEffect(() => {
+    axios.get("/api/csrf-token/")
+      .then(res => setCsrfToken(res.data.csrfToken))
+      .catch(err => console.error('Error fetching CSRF token', err));
+  }, []);
+
+  const handleLogin = async (event: React.SyntheticEvent) => {
+    // prevent the default behavior of <form> that automatically checks the CSRF token 
+    // instead of manually checking by calling API
+    event.preventDefault();
+    debugger;
     if (!loginCredentials) return;
     const { username, password } = loginCredentials;
-    debugger;
-    const f = async () => {
-      try {
-        debugger;
-        const response = await axios.post("/api/login/", {
-          username, password
-        });
-        console.log("Log: ")
-        console.log(response)
-        if (!response.data.success) navigate("/login/");
-        else navigate("/tsm-app/");
-      }
-      catch {
-        navigate("/login/");
-      }
+    try {
+      const response = await axios.post("/api/login/", {
+        username, password, headers: {
+          'X-CSRFToken': csrfToken
+        }
+      });
+      if (!response.data.success) navigate("/login/");
+      else navigate("/tsm-app/");
     }
-    f();
+    catch {
+      navigate("/login/");
+    }
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
     if (!registerCredentials) return;
     const { email, username, password } = registerCredentials;
     const response = await axios.post("/api/register/", {
-      username, email, password
+      username, email, password, headers: {
+        'X-CSRFToken': csrfToken
+      }
     });
     if (!response.data.success) navigate("/login/");
     else navigate("/tsm-app/");

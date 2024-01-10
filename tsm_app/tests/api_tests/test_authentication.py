@@ -24,7 +24,7 @@ class TestAuthenticationAPIs:
         })
         api_test_case.assertEqual(response.json(), {'success': True})
         response = basic_client.get('/api/csrf-token/')
-        csrf_token = response.json().get('csrf_token') # or from response.cookies['csrftoken']
+        csrf_token = response.json().get('csrfToken') # or from response.cookies['csrftoken']
         response = basic_client.post('/api/logout/', HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.json(), {'success': True})
 
@@ -44,7 +44,7 @@ class TestAuthenticationAPIs:
 
         # get csrf token
         response = basic_client.get('/api/csrf-token/')
-        csrf_token = response.json().get('csrf_token')
+        csrf_token = response.json().get('csrfToken')
         #
         response = basic_client.post('/api/password-change/', {
             'username': 'andrew',

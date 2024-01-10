@@ -74,7 +74,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = (props) => {
       sx={{mt: 1}} 
       variant="contained" 
       type="submit" 
-      disabled={submitDisabled}>
+      /*disabled={submitDisabled} */>
       Register
     </Button>
     </Box>

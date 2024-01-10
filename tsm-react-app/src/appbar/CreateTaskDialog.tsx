@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import TextField from '@mui/material/TextField';
 import { EmptyDialog } from '../components/Dialog';
@@ -40,8 +40,8 @@ export const CreateTaskDialog: React.FC<CreateTaskDialogProps> = (props) => {
   const { onAccepted, onClose } = props;
   const [ project, setProject ] = React.useState<any>([]);
   const [ assignee, setAssignee ] = React.useState<any>([]);
-  const [ startDate, setStartDate ] = React.useState<Dayjs | null>(null);
-  const [ endDate, setEndDate ] = React.useState<Dayjs | null>(null);
+  const setStartDate = React.useState<Dayjs | null>(null)[1];
+  const setEndDate = React.useState<Dayjs | null>(null)[1];
   const [ description, setDescription ] = React.useState('');
 
   React.useEffect(() => {
