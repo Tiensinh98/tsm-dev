@@ -1,15 +1,26 @@
 import React from 'react';
 import {
-  Container,
+  Grid,
   Button,
   Typography
 } from '@mui/material';
 
 export const LogoutPage: React.FC = () => {
   return (
-    <Container>
-      <Typography>You've just logged out!</Typography>
-      <Button href='/login'>Login</Button>
-    </Container>
+    <Grid container>
+      <Grid 
+        item 
+        sx={{ 
+          display: 'flex',
+          flexDirection: "column",
+          alignItems: "center", 
+          justifyContent: "center", 
+          height: "100vh"
+          }} 
+        lg={12}>
+        <Typography>You've just logged out!</Typography>
+        <Button href='/login/'>Login</Button>
+      </Grid>
+    </Grid>
   );
 };

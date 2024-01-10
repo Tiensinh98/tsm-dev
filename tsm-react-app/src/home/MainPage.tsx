@@ -26,21 +26,21 @@ export const HomePage: React.FC = () => {
   const [ errorDelete, setErrorDelete ] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    const fetchProjects = async () => {
-      const response = await axios.get("/api/projects/");
-      const data: any[] = response.data;
-      let rows = [];
-      for (const d of data) {
-        let row: any = {};
-        for (const field of projectInfos) {
-            row[field] = d[field];
-        }
-        row["id"] = d.id;
-        rows.push(row);
-      }
-      setProjectData(rows);
-    }
-    fetchProjects();
+    // const fetchProjects = async () => {
+    //   const response = await axios.get("/api/projects/");
+    //   const data: any[] = response.data;
+    //   let rows = [];
+    //   for (const d of data) {
+    //     let row: any = {};
+    //     for (const field of projectInfos) {
+    //         row[field] = d[field];
+    //     }
+    //     row["id"] = d.id;
+    //     rows.push(row);
+    //   }
+    //   setProjectData(rows);
+    // }
+    // fetchProjects();
   }, []);
 
   const handleDeleteProject = async (projectId: number) => {
