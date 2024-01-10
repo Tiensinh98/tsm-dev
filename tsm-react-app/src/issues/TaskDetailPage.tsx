@@ -1,9 +1,10 @@
 import React from 'react';
+import { Grid } from '@mui/material';
+
 import { ResponsiveAppBar } from '../appbar/AppBar';
 import { IssueLeftPane } from './IssueLeftPane';
 import { TaskRightPane } from './task_components/TaskRightPane';
 import { TaskContentArea } from './task_components/TaskContentArea';
-import { Grid } from '@mui/material';
 
 
 interface TaskDetailProps {

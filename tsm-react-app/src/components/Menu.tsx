@@ -1,9 +1,11 @@
 import React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Stack from '@mui/material/Stack';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import { Menu } from '@mui/material';
+import { 
+  Menu, 
+  MenuItem, 
+  Stack, 
+  ListItemText, 
+  ListItemIcon 
+} from '@mui/material';
 
 interface CustomMenuItemProps {
     text: string;

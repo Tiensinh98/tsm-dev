@@ -1,7 +1,10 @@
 import React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import {
+  Box,
+  Avatar,
+  Menu,
+  MenuItem
+} from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import { Link } from './Link';
 
@@ -23,7 +26,7 @@ export const ImageAvatar: React.FC<AvatarProps> = (props) => {
   }
 
   return (
-    <div style={{ width: "45px"}}
+    <Box /*<div style={{ width: "45px"}}*/
       onMouseEnter={e => togglePopup(e, true)}
     >
       {src ? 
@@ -47,6 +50,6 @@ export const ImageAvatar: React.FC<AvatarProps> = (props) => {
           <Link href={link} text={alt}/>
         </MenuItem>
       </Menu>
-    </div>
+    </Box>
   );
 }

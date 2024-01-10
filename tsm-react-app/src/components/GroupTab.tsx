@@ -1,8 +1,9 @@
 import React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {
+  Tabs,
+  Tab,
+  Box
+} from '@mui/material';
 
 const a11yProps = (index: number) => {
   return {
@@ -29,7 +30,7 @@ const TabContent: React.FC<TabContentProps> = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -38,10 +39,10 @@ const TabContent: React.FC<TabContentProps> = (props) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -65,7 +66,7 @@ export const GroupTab: React.FC<GroupTabProps> = (props) => {
           aria-label="basic tabs example" 
           textColor="secondary">
           {labels.map(
-            (label, index) => <Tab 
+            (label, index) => <Tab key={index}
               label={label} {...a11yProps(index)} />
             )
           }
@@ -74,7 +75,8 @@ export const GroupTab: React.FC<GroupTabProps> = (props) => {
       {children?.map(
           (child: React.ReactNode, index: number) => <TabContent 
             value={tabIndex} 
-            index={index}>
+            index={index}
+            key={index}>
             {child}
           </TabContent>
         )

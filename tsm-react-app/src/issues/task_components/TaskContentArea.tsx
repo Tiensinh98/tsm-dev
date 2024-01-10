@@ -1,8 +1,13 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { 
+  Box, 
+  Typography, 
+  Button 
+} from "@mui/material";
+
 import { DirectoryNavigator } from "../../components/DirectoryNavigator";
-import InputFileUpload from "../../components/UploadFileButton";
-import Button from "@mui/material/Button";
+import { InputFileUpload } from "../../components/UploadFileButton";
+
 
 const directories = [
   {dir: "Projects", href: "/tsm-app/projects/"},

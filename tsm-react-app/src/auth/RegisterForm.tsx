@@ -1,7 +1,10 @@
 import React from "react";
+import { 
+  Button, 
+  Box 
+} from "@mui/material";
+
 import { TextInput } from "../components/TextInput";
-import { Box } from "@mui/material";
-import { Button } from "@mui/material";
 
 
 export interface RegisterCredsProps {

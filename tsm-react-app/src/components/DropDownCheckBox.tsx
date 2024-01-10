@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
 
 interface DropDownItemProps {
   text: string;
@@ -53,7 +54,7 @@ export const DropdownButton: React.FC<DropDownButtonProps> = (props) => {
   };
 
   return (
-    <div>
+    <Box>
       <Button 
         aria-controls="simple-menu" 
         aria-haspopup="true"
@@ -80,7 +81,7 @@ export const DropdownButton: React.FC<DropDownButtonProps> = (props) => {
           ))
         }
       </Menu>
-    </div>
+    </Box>
   );
 }
 

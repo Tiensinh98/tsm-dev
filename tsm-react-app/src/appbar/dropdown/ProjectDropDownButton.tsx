@@ -1,8 +1,12 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { Box } from "@mui/material";
-import { CustomMenu } from "../../components/Menu";
+import { 
+  Box, 
+  Button 
+} from "@mui/material";
 import { Create, Delete } from "@mui/icons-material";
+
+import { CustomMenu } from "../../components/Menu";
+
 
 const MenuItems = [
   {

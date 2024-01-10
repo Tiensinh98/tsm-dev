@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 import { GroupTab } from '../components/GroupTab';
 import { LoginForm, LoginCredsProps } from './LoginForm';
@@ -15,8 +16,10 @@ export const AuthenticationPage: React.FC = () => {
   const [ csrfToken, setCsrfToken] = React.useState('');
 
   React.useEffect(() => {
-    axios.get("/api/csrf-token/")
-      .then(res => setCsrfToken(res.data.csrfToken))
+    // use fetch instead of axios since useEffect doesn't allow async mechanism
+    fetch('/api/csrf-token/')
+      .then(res => res.json())
+      .then(data => setCsrfToken(data.csrfToken))
       .catch(err => console.error('Error fetching CSRF token', err));
   }, []);
 
@@ -24,7 +27,6 @@ export const AuthenticationPage: React.FC = () => {
     // prevent the default behavior of <form> that automatically checks the CSRF token 
     // instead of manually checking by calling API
     event.preventDefault();
-    debugger;
     if (!loginCredentials) return;
     const { username, password } = loginCredentials;
     try {

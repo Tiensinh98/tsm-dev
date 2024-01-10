@@ -1,6 +1,5 @@
 import React from 'react';
 import { CustomTable } from '../../components/Table';
-import { Box } from '@mui/material';
 import { ComboBox } from '../../components/ComboBox';
 import { ImageAvatar } from '../../components/Avatar';
 

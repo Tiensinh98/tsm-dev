@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+
 import { ResponsiveAppBar } from '../appbar/AppBar';
 import { IssueLeftPane } from './IssueLeftPane';
 import { TaskTable } from './task_components/TaskTable';

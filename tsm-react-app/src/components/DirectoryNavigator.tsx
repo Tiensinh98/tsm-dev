@@ -1,6 +1,8 @@
 import React from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import {
+  Breadcrumbs, 
+  Link
+} from '@mui/material';
 
 interface DirectoryProps {
   dir: string;

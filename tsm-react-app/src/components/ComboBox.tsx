@@ -1,9 +1,12 @@
 import React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Box, Button } from '@mui/material';
+import { 
+  Box, 
+  Button, 
+  InputLabel,
+  MenuItem, 
+  FormControl 
+} from '@mui/material';
 
 interface OptionProps {
   text: string
