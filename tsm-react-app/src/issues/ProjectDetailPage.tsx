@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 
 import { ResponsiveAppBar } from '../appbar/AppBar';
 import { IssueLeftPane } from './IssueLeftPane';
-import { TaskTable } from './task_components/TaskTable';
+import { TaskTable } from './task-components/TaskTable';
 
 
 interface ProjectDetailProps {
