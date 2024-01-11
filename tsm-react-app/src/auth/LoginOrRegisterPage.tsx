@@ -27,11 +27,11 @@ export const AuthenticationPage: React.FC = () => {
           'X-CSRFToken': csrfToken
         }
       });
-      if (!response.data.success) navigate("/login/");
-      else navigate("/tsm-app/");
+      if (!response.data.success) navigate("/login");
+      else navigate("/tsm-app");
     }
     catch {
-      navigate("/login/");
+      navigate("/login");
     }
   };
 
@@ -45,8 +45,8 @@ export const AuthenticationPage: React.FC = () => {
         'X-CSRFToken': csrfToken
       }
     });
-    if (!response.data.success) navigate("/login/");
-    else navigate("/tsm-app/");
+    if (!response.data.success) navigate("/login");
+    else navigate("/tsm-app");
   };
 
   return (

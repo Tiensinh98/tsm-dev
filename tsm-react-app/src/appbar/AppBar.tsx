@@ -37,12 +37,12 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
   const settingModels = [
     { text: "Logout", value: "", onClick: async () => {
       try {
-        const response = await axios.post("/api/logout/");
-        if (!response.data.success) navigate("/tsm-app/");
-        else navigate("/logout/");
+        const response = await axios.post("/api/logout");
+        if (!response.data.success) navigate("/tsm-app");
+        else navigate("/logout");
       }
       catch {
-        navigate("/tsm-app/");
+        navigate("/tsm-app");
       }
     }}
   ]

@@ -12,7 +12,7 @@ export const WelcomePage: React.FC = () => {
         <Row>Welcome!</Row>
         <Row>Welcome To Task Management System!</Row>
         <Row>
-          <Button href='/login/'>Login</Button>
+          <Button href='/login'>Login</Button>
         </Row>
       </Col>
     </Container>
