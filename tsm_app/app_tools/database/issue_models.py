@@ -36,6 +36,7 @@ class Issue(models.Model):
     This defines some common attributes of an Issue e.g. name, start_date, end_date, etc.
     """
     name = models.CharField(max_length=50, default='', null=False)
+    # created_date = models.DateField(auto_now_add=True)
     start_date = models.DateField(null=True)
     due_date = models.DateField(null=True)
     priority = models.CharField(

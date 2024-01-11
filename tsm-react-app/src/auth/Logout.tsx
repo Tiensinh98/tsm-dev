@@ -8,7 +8,7 @@ import {
 export const LogoutPage: React.FC = () => {
   return (
     <Grid container>
-      <Grid 
+      <Grid
         item 
         sx={{ 
           display: 'flex',
@@ -17,6 +17,9 @@ export const LogoutPage: React.FC = () => {
           justifyContent: "center", 
           height: "100vh"
           }} 
+        xs={12}
+        sm={12}
+        md={12}
         lg={12}>
         <Typography>You've just logged out!</Typography>
         <Button href='/login/'>Login</Button>
