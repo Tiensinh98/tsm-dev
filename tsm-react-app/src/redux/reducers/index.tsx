@@ -1,22 +1,42 @@
-import { CounterAction } from '../actions/counterAction';
-import { CounterActionTypes } from '../actions/counterTypes';
-import { CounterState, counterReducer, counterState } from './counterReducer';
+import axios from 'axios';
+import { loginReducer, UserLoginState } from './auth/loginReducer';
+import { registerReducer, UserRegisterState } from './auth/registerReducer';
 
 
 export interface AppState {
-  counterState: CounterState;
+  csrfToken: string;
+  userLoginState: UserLoginState;
+  userRegisterState: UserRegisterState;
+}
+
+// get csrf token
+var csrfToken = '';
+try {
+  csrfToken = await axios.get("/api/csrf-token/");
+}
+catch (err) {
+  console.error('Error fetching CSRF token', err)
 }
 
 const initialState: AppState = {
-  counterState: counterState
+  csrfToken: csrfToken,
+  userLoginState: { 
+    username: '', 
+    password: ''
+  },
+  userRegisterState: {
+    email: '',
+    username: '',
+    password: '',
+    password2: '',
+    isValid: true
+  }
 };
   
-export const rootReducer = (
-  state: AppState = initialState,
-  action: CounterAction
-): AppState => {
-  if (action.type in CounterActionTypes) {
-    return { ...state, counterState: counterReducer(state.counterState, action) };
-  }
-  return state;
+export const rootReducer = (state: AppState = initialState, action: any): AppState => {
+  return {
+    ...state,
+    userLoginState: loginReducer(state.userLoginState, action),
+    userRegisterState: registerReducer(state.userRegisterState, action)
+  };
 };

@@ -1,83 +1,68 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { 
-  Button, 
-  Box 
+  Button, Box 
 } from "@mui/material";
 
 import { TextInput } from "../components/TextInput";
+import { AppState } from "../redux/reducers";
+import { userRegisterCredChange } from "../redux/actions/auth/registerAction";
 
 
-export interface RegisterCredsProps {
-  email: string;
-  username: string;
-  password: string;
-  password2: string;
-}
-
-interface RegisterFormProps {
-  onCredsChange?: (info: RegisterCredsProps) => void;
-}
-
-
-export const RegisterForm: React.FC<RegisterFormProps> = (props) => {
-  const { onCredsChange } = props;
-
-  const [ submitDisabled, setSubmitDisabled ] = React.useState<boolean>(true);
-  const [ currentCreds, setCurrentInfo ] = React.useState<RegisterCredsProps>({
-    email: '',
-    username: '', 
-    password: '',
-    password2: ''
-  })
-
-  const handleChangeCreds = (name: string, value: string) => {
-    if (name === "password") {
-      // TODO: validate the strength of password
-    }
-    else if (name === "password2") {
-        if (currentCreds.password.length > 0) {
-            if (value !== currentCreds.password) {
-                setSubmitDisabled(false);
-            }
-            else {
-                setSubmitDisabled(true);
-            }
-        }
-    }
-    setCurrentInfo({...currentCreds, [name] : value});
-    if (onCredsChange) onCredsChange({...currentCreds, [name] : value});
-  }
+export const RegisterForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const { 
+    email, username, password, 
+    password2, isValid 
+  } = useSelector((state: AppState) => state.userRegisterState);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
     <TextInput
-      value={currentCreds.email}
+      value={email}
       label="Email"
       name="email"
       type="email"
-      onChange={handleChangeCreds}/>
+      onChange={(...args) => {
+        dispatch(userRegisterCredChange({
+          email: args[1], username, password, password2
+        }));
+      }}/>
     <TextInput
-      value={currentCreds.username}
+      value={username}
       label="Username"
       name="username"
-      onChange={handleChangeCreds}/>
+      onChange={(...args) => {
+        debugger;
+        dispatch(userRegisterCredChange({
+          email, username: args[1], password, password2
+        }));
+      }}/>
     <TextInput
-      value={currentCreds.password}
+      value={password}
       label="Password"
       name="password"
       type="password"
-      onChange={handleChangeCreds}/>
+      onChange={(...args) => {
+        dispatch(userRegisterCredChange({
+          email, username, password: args[1], password2
+        }));
+      }}/>
     <TextInput
-      value={currentCreds.password2}
+      value={password2}
       label="Confirmed password"
       name="password2"
       type="password"
-      onChange={handleChangeCreds}/>
+      onChange={(...args) => {
+        dispatch(userRegisterCredChange({
+          email, username, password, password2: args[1]
+        }));
+      }}/>
     <Button 
       sx={{mt: 1}} 
       variant="contained" 
-      type="submit" 
-      /*disabled={submitDisabled} */>
+      type="submit"
+      disabled={!isValid}>
       Register
     </Button>
     </Box>

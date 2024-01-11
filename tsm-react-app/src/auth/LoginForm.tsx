@@ -1,47 +1,36 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Button 
 } from "@mui/material";
 
 import { TextInput } from "../components/TextInput";
+import { AppState } from '../redux/reducers';
+import { userLoginCredChange } from "../redux/actions/auth/loginAction";
 
 
-export interface LoginCredsProps {
-  username: string;
-  password: string;
-}
-
-interface LoginFormProps {
-  onCredsChange?: (creds: LoginCredsProps) => void;
-}
-
-
-export const LoginForm: React.FC<LoginFormProps> = (props) => {
-  const { onCredsChange } = props;
-  const [ currentCreds, setCurrentInfo ] = React.useState<LoginCredsProps>({
-    username: '', 
-    password: ''
-  })
-
-  const handleChangeCreds = (name: string, value: string) => {
-    setCurrentInfo({...currentCreds, [ name ]: value});
-    if (onCredsChange) onCredsChange({...currentCreds, [ name ]: value});
-  }
+export const LoginForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const { username, password } = useSelector((state: AppState) => state.userLoginState);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column'}}>
       <TextInput 
-        value={currentCreds.username}
+        value={username}
         label="Username"
         name="username"
-        onChange={handleChangeCreds}/>
+        onChange={(name: string, value: string) => {
+          dispatch(userLoginCredChange(name, value));
+        }}/>
       <TextInput 
-        value={currentCreds.password}
+        value={password}
         label="Password"
         name="password"
         type="password"
-        onChange={handleChangeCreds}/>
+        onChange={(name: string, value: string) => {
+          dispatch(userLoginCredChange(name, value));
+        }}/>
       <Button  
         sx={{mt: 1}}
         variant="contained"
