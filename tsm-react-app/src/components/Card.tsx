@@ -76,7 +76,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = (props) => {
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }} key={primaryKey}>
+    <Card sx={{ width: 345 }} key={primaryKey}>
       <CardHeader
         avatar={avatar}
         action={
@@ -96,7 +96,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = (props) => {
           </IconButton>
         }
         title={title}
-        subHeader={subHeader}
+        subheader={subHeader}
       />
       {image? <CardMedia
         component="img"

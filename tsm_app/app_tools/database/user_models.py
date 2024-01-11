@@ -60,6 +60,8 @@ class Profile(models.Model):
     dob = models.DateField(null=True)
     profile_image = models.ImageField(upload_to='users/profile/')
     description = models.TextField(max_length=1000, null=True)
+    # TODO: avatar_image = models.ImageField()
+    # TODO: avatar_color = models.CharField() red, green, etc.
 
     def __init__(self, *args, **kwargs):
         user = kwargs.get('user', None)

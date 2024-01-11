@@ -5,12 +5,11 @@ import {
   Menu,
   MenuItem
 } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
 import { Link } from './Link';
 
 interface AvatarProps {
   alt: string;
-  link: string;
+  link?: string;
   src?: string;
 };
 
@@ -26,30 +25,20 @@ export const ImageAvatar: React.FC<AvatarProps> = (props) => {
   }
 
   return (
-    <Box /*<div style={{ width: "45px"}}*/
-      onMouseEnter={e => togglePopup(e, true)}
-    >
-      {src ? 
-        <Avatar
-          alt={alt} 
-          src={src} 
-        /> : 
-        <Avatar
-          sx={{ bgcolor: deepOrange[200] }}
-        >
-          {alt?.split(' ').map(v => v[0]).join('')}
-        </Avatar>
-      }
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-      >
-        <MenuItem>
-          <Link href={link} text={alt}/>
-        </MenuItem>
-      </Menu>
-    </Box>
+    <div onMouseDown={ e => togglePopup(e, true) }>
+      <Box sx={{ width: 32 }}>
+        { <Avatar>{alt?.split(' ').map(v => v[0]).join('')}</Avatar> }
+        { alt? <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={open}
+            onClose={ e => togglePopup(e, false) }>
+            <MenuItem>
+              <Link href={link? link : ''} text={alt}/>
+            </MenuItem>
+          </Menu> : null
+        }
+      </Box>
+    </div>
   );
 }
