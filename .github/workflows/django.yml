@@ -1,4 +1,4 @@
-name: Django CI
+name: Task Monitoring System Pipeline
 
 on:
   push:
@@ -7,13 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-pipeline:
 
     runs-on: self-hosted
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.10.12] # more python versions here to build more jobs
+        python-version: [3.10.6] # more python versions here to build more jobs
 
     steps:
     - uses: actions/checkout@v3
@@ -21,10 +21,31 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
+    - name: Set up Postgresql
+      uses: ikalnytskyi/action-setup-postgres@v5
+    - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Create Test Postgres Database
+      run: |
+        createuser testuser
+        createdb --owner testuser test_task_management_system
+        psql -c "ALTER USER testuser WITH PASSWORD '123456'"
+        env:
+          # This activates connection parameters for the superuser created by
+          # the action in the step above. It's mandatory to set this before using
+          # createuser/psql and other libpq-using applications.
+          #
+          # The service name is the same as the username (i.e. 'postgres') but
+          # it's recommended to use action's output to get the name in order to
+          # be forward compatible.
+          PGSERVICE: ${{ steps.postgres.outputs.service-name }}
+        shell: bash
+    - name: Migrate Models to Database
+      run: |
+        python manage makemigrations
+        python manage migrate
     - name: Run Tests
       run: |
         python manage.py test
