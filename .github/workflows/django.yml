@@ -24,10 +24,10 @@ jobs:
     - name: Set up Postgresql
       uses: ikalnytskyi/action-setup-postgres@v5
       with:
-        postgresql version: '13' # specify the version you need
-        postgresql db: 'test_task_management_system'
-        postgresql user: 'postgres'
-        postgresql password: '123456'
+        database: 'test_task_management_system'
+        username: 'postgres'
+        password: '123456'
+        port: 5432
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
