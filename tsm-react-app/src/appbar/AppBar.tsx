@@ -163,7 +163,6 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
              <ProjectDropDownButton
-                key='project' 
                 onClick={handleCloseNavMenu}
               /> 
               <Button

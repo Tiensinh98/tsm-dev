@@ -22,13 +22,12 @@ const MenuItems = [
 ];
 
 interface ProjectDropDownProps {
-  key: string;
   onClick?: () => void;
 }
 
 
 export const ProjectDropDownButton: React.FC<ProjectDropDownProps> = (props) => {
-  const { key, onClick } = props;
+  const { onClick } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const showMenu = Boolean(anchorEl);
@@ -44,15 +43,15 @@ export const ProjectDropDownButton: React.FC<ProjectDropDownProps> = (props) => 
 
   return (
     <Box>
-      <Button 
+      <Button
         aria-haspopup="true"
-        key={key}
+        key="project"
         onClick={handleShowMenu}
         sx={{ my: 2, color: 'white', display: 'block' }}
       >
         Projects
       </Button>
-      <CustomMenu 
+      <CustomMenu
         anchorEl={anchorEl}
         keepMounted
         items={MenuItems} 
