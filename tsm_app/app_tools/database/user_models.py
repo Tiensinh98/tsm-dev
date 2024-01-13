@@ -46,6 +46,10 @@ class CustomUser(auth_models.AbstractUser):
     def from_json_value(json_value: dict):
         return CustomUser(**json_value)
 
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        return {}
+
 
 class Profile(models.Model):
     user: CustomUser = models.OneToOneField(
@@ -75,7 +79,7 @@ class Profile(models.Model):
                 email=f"dummy_email_{unique_id}@gmail.com")
             user.save()
             kwargs['user'] = user
-        kwargs["avatar_color"] = self.get_random_rgb()
+            kwargs["avatar_color"] = self.get_random_rgb()
         super().__init__(*args, **kwargs)
 
     def __str__(self):
@@ -92,7 +96,7 @@ class Profile(models.Model):
             "userId": self.user.id,
             "role": self.role,
             "dob": self.dob,
-            "profileImage": self.avatar,
+            # "avatar": self.avatar,
             "avatarColor": self.avatar_color,
             "description": self.description
         }

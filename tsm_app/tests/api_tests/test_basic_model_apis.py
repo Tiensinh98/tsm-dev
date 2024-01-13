@@ -1,10 +1,10 @@
 from rest_framework import status
 
 
-class TestIssueAPIs:
+class TestBasicModelAPIs:
 
     @staticmethod
-    def test_project_api_1(api_test_case, super_client, dataset):
+    def test_project_api(api_test_case, super_client, dataset):
         init_project_data = [
             {
                 "id": 1,
@@ -162,7 +162,7 @@ class TestIssueAPIs:
         ])
 
     @staticmethod
-    def test_task_api_1(api_test_case, super_client, dataset):
+    def test_task_api(api_test_case, super_client, dataset):
         init_task_data = [
             {
                 'id': 3,
@@ -325,3 +325,15 @@ class TestIssueAPIs:
                 }
             }
         ])
+
+    @staticmethod
+    def test_device_api(api_test_case, super_client, dataset):
+        pass
+
+    @staticmethod
+    def test_team_api(api_test_case, super_client, dataset):
+        pass
+
+    @staticmethod
+    def test_user_api(api_test_case, super_client, dataset):
+        pass

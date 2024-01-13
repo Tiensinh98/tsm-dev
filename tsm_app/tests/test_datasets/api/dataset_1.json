@@ -74,14 +74,14 @@
           "id": 1,
           "role": "software_developer",
           "dob": null,
-          "profile_image": null,
+          "avatar": null,
           "description": null
         },
         {
           "id": 2,
           "role": "software_engineer",
           "dob": "1992-12-17",
-          "profile_image": "test_user1.png",
+          "avatar": "test_user1.png",
           "description": "Test description"
         }
       ]
