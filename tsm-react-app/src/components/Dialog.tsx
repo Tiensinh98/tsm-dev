@@ -23,21 +23,21 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 interface EmptyDialogProps {
     title: string;
+    open: boolean;
     children?: React.ReactNode;
     onAccepted?: () => void;
     onClose?: () => void;
 };
 
 export const EmptyDialog: React.FC<EmptyDialogProps> = (props) => {
-  const { title, children, onAccepted, onClose} = props;
-  const [open, setOpen] = React.useState(true);
+  const { title, open, children, onAccepted, onClose} = props;
 
   const handleClose = () => {
-    setOpen(false);
     if (onClose) onClose();
   };
 
-  const handleAccepted = () => {
+  const handleAccepted = (event: React.SyntheticEvent) => {
+    event.preventDefault();
     if (onAccepted) onAccepted();
   }
 

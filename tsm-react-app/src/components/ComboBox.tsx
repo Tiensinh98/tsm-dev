@@ -1,30 +1,25 @@
 import React from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { 
-  Box, 
-  Button, 
-  InputLabel,
-  MenuItem, 
-  FormControl 
-} from '@mui/material';
+import { Avatar,  InputLabel, MenuItem,  FormControl } from '@mui/material';
+
 
 interface OptionProps {
   text: string
   value: string
-  icon?: React.ReactNode;
+  icon?: string;
 }
 
 interface ComboBoxProps {
   options: OptionProps[];
-  value: string;
+  value?: string | null;
   title?: string | null;
   onChange?: (value: string) => void;
 }
 
 
 export const ComboBox: React.FC<ComboBoxProps> = (props) => {
-  const { options, title, onChange, value } = props;
-  const [currentValue, setCurrentValue] = React.useState<string>(value);
+  const { options, title, value, onChange} = props;
+  const [currentValue, setCurrentValue] = React.useState<string | undefined>(value ? value : options[0]?.value);
 
   const handleChange = (event: SelectChangeEvent) => {
     let value: string = event.target.value;
@@ -35,7 +30,7 @@ export const ComboBox: React.FC<ComboBoxProps> = (props) => {
   };
 
   return (
-    <Box sx={{mt: 1}}>
+    <React.Fragment>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{props.title}</InputLabel>
         <Select
@@ -48,13 +43,13 @@ export const ComboBox: React.FC<ComboBoxProps> = (props) => {
           {
             options.map(option => (
               <MenuItem key={option.value} value={option.value}>
-                {option.icon ? <Button startIcon={option.icon}></Button> : null}
+                {option.icon ? <Avatar sx={{mr: 2}} src={option.icon}></Avatar> : null}
                 {option.text}
               </MenuItem>
             ))
           }
         </Select>
       </FormControl>
-    </Box>
+    </React.Fragment>
   );
 } 

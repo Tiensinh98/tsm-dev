@@ -19,7 +19,6 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
 
   return (
     <TextField
-      sx={{mt: 1}}
       fullWidth
       name={name}
       label={label}

@@ -141,7 +141,7 @@ def get_create_model(model_str):
 
     @api_view(['POST'])
     @permission_classes([IsAuthenticated])
-    @csrf_protect
+    # @csrf_protect
     def create_model(request) -> JsonResponse:
         """
         This POST API is used to create a new Model with some fields

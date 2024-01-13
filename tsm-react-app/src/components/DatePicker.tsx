@@ -8,7 +8,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface CustomDatePickerProps {
   label: string;
-  onChange?: (value: Dayjs | null) => void;
+  onChange?: (
+    year: number | undefined, 
+    month: number | undefined, 
+    date: number | undefined
+  ) => void;
 }
 
 
@@ -19,7 +23,7 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = (props) => {
 
   const handleOnDatechange = (value: Dayjs | null) => {
     setCurrentDate(value);
-    if (onChange) onChange(value);
+    if (onChange) onChange(value?.year(), value?.month(), value?.date());
   }
 
   return (

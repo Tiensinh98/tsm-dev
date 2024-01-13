@@ -4,27 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Container,
-  Avatar,
-  Button,
-  Tooltip,
-  MenuItem,
-  Menu,
-  Grid
+  AppBar, Box, Toolbar, IconButton, Typography, 
+  Container, MenuItem, Menu, Grid, Button
 } from '@mui/material';
 
-import { CreateTaskDialog } from './CreateTaskDialog';
-import { ProjectDropDownButton } from './dropdown/ProjectDropDownButton';
-import { CustomMenu } from '../components/Menu';
+import {  CreateTaskMenu } from './menubar/CreateTaskMenu';
+import { AccountMenu } from './account/AccountMenu';
+import { ProjectListMenu } from './menubar/ProjectListMenu';
 
 
 const pages = ['Project'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 interface AppBarProps {
   children?: React.ReactNode;
@@ -47,14 +36,14 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
     }}
   ]
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [ openCreateDialog, setOpenCreateDialog ] = React.useState(false);
 
-  const handleOpenNavMenu = (event: any) => {
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: any) => {
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -162,61 +151,11 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
               TSM
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-             <ProjectDropDownButton
-                onClick={handleCloseNavMenu}
-              /> 
-              <Button
-                  key='create'
-                  onClick={handleShowCreateDialog}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                Create
-              </Button>
+              <ProjectListMenu />
+              <CreateTaskMenu />
             </Box>
-
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="#" />
-                </IconButton>
-              </Tooltip>
-              <CustomMenu
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-                items={settingModels}
-              />
-              {/* <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu> */}
+              <AccountMenu />
             </Box>
           </Toolbar>
         </Container>
@@ -224,12 +163,6 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
       <Grid container>
         {children}
       </Grid>
-      {openCreateDialog ? 
-        <CreateTaskDialog 
-          onAccepted={createTask} 
-          onClose={handleHideCreateDialog}/> 
-        : null
-      }
     </Box>
   );
 };

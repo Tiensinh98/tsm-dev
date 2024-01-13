@@ -10,6 +10,7 @@ api_model_endpoint_to_view_ptr = {
     "/<int:pk>/": (app_tools.get_get_or_patch_or_delete_model, 'one'),
     "/filter/": (app_tools.get_filter_models, 'filter'),
     "/add/": (app_tools.get_create_model, 'add'),
+    # TODO: api to get needed infor of model: /api/projects/?startDate&dueDate
 }
 api_urlpatterns = [
     path(f'{model_name}s{endpoint}', view=view_ptr(model_name.capitalize()), name=f'{model_name}s{name}')

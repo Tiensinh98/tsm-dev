@@ -132,6 +132,7 @@ class Task(Issue):
         user_models.CustomUser, on_delete=models.SET_NULL, null=True)
 
     def __init__(self, *args, **kwargs):
+        kwargs.pop("headers", None)
         line_project = kwargs.get('line_project', None)
         if line_project is None and len(args) == 0:
             print('Try to instantiate Telephone without profile PrimaryKey!!! '
