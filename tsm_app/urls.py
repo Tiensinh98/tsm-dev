@@ -9,7 +9,6 @@ app_name = 'tsm_app'
 urlpatterns = [
     path('', views.index),
     path('login/', views.login),
-    path('home/', views.home),
     path('logout/', views.logout),
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='reset_done'),

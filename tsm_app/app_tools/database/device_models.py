@@ -70,6 +70,6 @@ class Device(models.Model):
     def get_non_primitive_field_to_converter() -> dict:
         return {
             "purchaseDate": lambda date: (utils.get_datetime_from_str(date), "purchase_date"),
-            "handover_date": lambda date: (utils.get_datetime_from_str(date), "handover_date"),
+            "handoverDate": lambda date: (utils.get_datetime_from_str(date), "handover_date"),
             "project": lambda project_id: (issue_models.Project.objects.get(id=project_id), 'project')
         }

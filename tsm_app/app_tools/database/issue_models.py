@@ -1,3 +1,4 @@
+import django.utils.timezone
 from django.db import models
 
 from . import user_models
@@ -56,13 +57,14 @@ class Issue(models.Model):
 
     def get_json_value(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'startDate': self.start_date,
-            'dueDate': self.due_date,
-            'priority': self.priority,
-            'status': self.status,
-            'description': self.description,
+            "id": self.id,
+            "name": self.name,
+            "startDate": self.start_date,
+            "dueDate": self.due_date,
+            "createdDate": self.created_date,
+            "priority": self.priority,
+            "status": self.status,
+            "description": self.description,
         }
 
     @staticmethod
@@ -82,8 +84,8 @@ class Project(Issue):
     """
     leader: user_models.CustomUser = models.ForeignKey(
         user_models.CustomUser, on_delete=models.SET_NULL, null=True)
-    # TODO: project_image = models.ImageField(auto_now_add=True)
-    ## shortcut_key: models.CharField() eg. "AKS-123"
+    shortcut: models.CharField(null=True)
+    image = models.ImageField(null=True, upload_to ='devices/projects/')
 
     def __str__(self):
         return f"{self.get_issue_info()} Leader: {self.leader}"
@@ -98,7 +100,9 @@ class Project(Issue):
             }
         return {
             **self.issue_ptr.get_json_value(),
-            'leader': leader_json
+            "shortcut": self.shortcut,
+            "image": self.image,
+            "leader": leader_json
         }
 
     @staticmethod

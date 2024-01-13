@@ -162,7 +162,7 @@ PASSWORD_HASHERS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.SessionAuthentication', # session authentication to avoid CORS attacks
+        'rest_framework.authentication.SessionAuthentication', # session authentication to avoid CORS attacks
         # and allow login sequentially without logout (for Development only)
         'rest_framework.authentication.BasicAuthentication',
     ],

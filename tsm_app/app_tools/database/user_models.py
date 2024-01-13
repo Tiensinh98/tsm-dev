@@ -1,4 +1,5 @@
 import uuid
+import numpy as np
 
 from django.db import models
 from django.contrib.auth import models as auth_models
@@ -58,10 +59,9 @@ class Profile(models.Model):
         default=DEFAULT_ROLE_CHOICE
     )
     dob = models.DateField(null=True)
-    profile_image = models.ImageField(upload_to='users/profile/')
+    avatar = models.ImageField(upload_to='users/profile/')
     description = models.TextField(max_length=1000, null=True)
-    # TODO: avatar_image = models.ImageField()
-    # TODO: avatar_color = models.CharField() red, green, etc.
+    avatar_color = models.CharField(default="rgb(0, 0, 0)")
 
     def __init__(self, *args, **kwargs):
         user = kwargs.get('user', None)
@@ -75,6 +75,7 @@ class Profile(models.Model):
                 email=f"dummy_email_{unique_id}@gmail.com")
             user.save()
             kwargs['user'] = user
+        kwargs["avatar_color"] = self.get_random_rgb()
         super().__init__(*args, **kwargs)
 
     def __str__(self):
@@ -82,22 +83,32 @@ class Profile(models.Model):
 
     def get_json_value(self):
         return {
-            'id': self.id,
-            'supervisor': {
-                'id': self.supervisor.id,
-                'firstName': self.supervisor.first_name,
-                'lastName': self.supervisor.last_name
+            "id": self.id,
+            "supervisor": {
+                "id": self.supervisor.id,
+                "firstName": self.supervisor.first_name,
+                "lastName": self.supervisor.last_name
             },
-            'userId': self.user.id,
-            'role': self.role,
-            'dob': self.dob,
-            'profileImage': self.profile_image,
-            'description': self.description
+            "userId": self.user.id,
+            "role": self.role,
+            "dob": self.dob,
+            "profileImage": self.avatar,
+            "avatarColor": self.avatar_color,
+            "description": self.description
         }
 
     @staticmethod
     def from_json_value(json_value: dict):
         return Profile(**json_value)
+
+    @staticmethod
+    def get_random_rgb():
+        low = 0
+        high = 255
+        r = np.random.randint(low, high)
+        g = np.random.randint(low, high)
+        b = np.random.randint(low, high)
+        return f"rgb({r},{g},{b})"
 
 
 class Telephone(models.Model):

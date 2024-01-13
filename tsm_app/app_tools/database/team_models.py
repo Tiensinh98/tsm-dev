@@ -1,6 +1,7 @@
 from django.db import models
 
 from . import user_models
+from .. import utils
 
 __all__ = ['Team']
 
@@ -41,4 +42,10 @@ class Team(models.Model):
             "department": self.department,
             "description": self.description,
             "leader": leader_json,
+        }
+
+    @staticmethod
+    def get_non_primitive_field_to_converter() -> dict:
+        return {
+            'leader': lambda leader_id: (user_models.CustomUser.objects.get(id=leader_id), 'leader')
         }
