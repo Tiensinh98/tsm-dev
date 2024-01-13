@@ -23,19 +23,6 @@ export const ResponsiveAppBar: React.FC<AppBarProps> = (props) => {
   const { children } = props;
   const navigate = useNavigate();  // Use the useNavigate hook
 
-  const settingModels = [
-    { text: "Logout", value: "", onClick: async () => {
-      try {
-        const response = await axios.post("/api/logout");
-        if (!response.data.success) navigate("/tsm-app");
-        else navigate("/logout");
-      }
-      catch {
-        navigate("/tsm-app");
-      }
-    }}
-  ]
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [ openCreateDialog, setOpenCreateDialog ] = React.useState(false);

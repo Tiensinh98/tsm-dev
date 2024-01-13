@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import {
   Box, Avatar, Menu,
   MenuItem, ListItemIcon,
@@ -9,12 +10,13 @@ import {
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import { AppState } from '../../redux/reducers';
 
 export const AccountMenu = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const csrfToken: any = useSelector((state: AppState) => state.csrfToken);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,7 +29,11 @@ export const AccountMenu = () => {
   const handleLogout = async () => {
     handleClose();
     try {
-      const response = await axios.post("/api/logout/");
+      const response = await axios.post("/api/logout/", {
+        headers: {
+            'X-CSRFToken': csrfToken.data.csrfToken
+        }
+      });
       if (!response.data.success) {
         console.log("Error occurs while logging out!");
       }
