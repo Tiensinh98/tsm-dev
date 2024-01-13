@@ -1,17 +1,18 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import { ResponsiveAppBar } from '../appbar/AppBar';
 import { IssueLeftPane } from './IssueLeftPane';
 import { TaskTable } from './task-components/TaskTable';
 
 
-interface ProjectDetailProps {
-  title?: string;
-}
+export const ProjectDetailPage: React.FC = () => {
+  const { id } = useParams();
 
-export const ProjectDetailPage: React.FC<ProjectDetailProps> = (props) => {
-  const { title } = props;
+  React.useEffect(() => {
+    console.log(id)
+  }, [])
 
   return (
     <ResponsiveAppBar>
@@ -24,7 +25,9 @@ export const ProjectDetailPage: React.FC<ProjectDetailProps> = (props) => {
         <Grid
           item lg={10} 
           padding={1}>
-          <TaskTable />
+          <TaskTable
+            rows={[]}
+          />
         </Grid>
     </ResponsiveAppBar>
   );;

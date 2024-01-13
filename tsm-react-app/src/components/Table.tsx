@@ -1,20 +1,14 @@
 import React from 'react';
 import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer, 
-  TableHead,
-  TablePagination,
-  TableRow
+  Paper, Table, TableBody, TableCell, TableContainer,  
+  TableHead, TablePagination, TableRow
 } from '@mui/material';
 
 
 interface TableColumnProps {
   key: string
   label: string
-  minWidth: number
+  minWidth?: number
   align?: any
   format?: any
 };
@@ -50,7 +44,7 @@ export const CustomTable: React.FC<TableProps> = (props) => {
                 <TableCell
                   key={column.key}
                   align={column.align}
-                  style={{ minWidth: column.minWidth , backgroundColor: "lightblue"}}
+                  style={{ backgroundColor: "lightgrey" }}
                 >
                   {column.label}
                 </TableCell>
@@ -67,7 +61,7 @@ export const CustomTable: React.FC<TableProps> = (props) => {
                       const value = row[column.key];
                       return (
                         <TableCell key={column.key} align={column.align}>
-                          {column.format ? <column.format {...value}/> : value}
+                          {value}
                         </TableCell>
                       );
                     })}
