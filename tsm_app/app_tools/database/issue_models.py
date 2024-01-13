@@ -37,7 +37,7 @@ class Issue(models.Model):
     This defines some common attributes of an Issue e.g. name, start_date, end_date, etc.
     """
     name = models.CharField(max_length=50, default='', null=False)
-    # TODO: created_date = models.DateField(auto_now_add=True)
+    created_date = models.DateField(auto_now=True)
     start_date = models.DateField(null=True)
     due_date = models.DateField(null=True)
     priority = models.CharField(
@@ -100,8 +100,7 @@ class Project(Issue):
             }
         return {
             **self.issue_ptr.get_json_value(),
-            "shortcut": self.shortcut,
-            "image": self.image,
+            # "image": self.image,
             "leader": leader_json
         }
 

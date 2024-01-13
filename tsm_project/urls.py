@@ -22,8 +22,8 @@ from django.conf import settings
 urlpatterns = [
     path("", include("tsm_app.urls")),
     path("tsm-app/", include("tsm_app.app_urls")),
-    path('social-auth/', include((social_urls, 'social'))),
     path("api/", include("tsm_app.api_urls.auth_api_urls")),
     path("api/", include("tsm_app.api_urls.model_api_urls")),
+    path("api/", include("tsm_app.api_urls.user_api_urls")),
     path("admin/", admin.site.urls)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
