@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import include, path
-from social_django import urls as social_urls
 from django.conf import settings
 
 urlpatterns = [
