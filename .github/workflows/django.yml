@@ -51,6 +51,7 @@ jobs:
 
     - name: Install Node Dependencies
       run: |
+        cd tsm-react-app
         npm install
         npm run build
 
@@ -94,6 +95,7 @@ jobs:
 
     - name: Install Node Dependencies
       run: |
+        cd tsm-react-app
         npm install
         npm run build
 
