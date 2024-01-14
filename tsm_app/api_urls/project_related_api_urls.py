@@ -6,7 +6,7 @@ from .. import app_tools
 api_name_to_project_related_api_model_name = {
     "task": "Task",
     "device": "Device",
-    # "team": "Team", should need team ?
+    # "team": "Team", need team ?
     "user": "CustomUser",
 }
 

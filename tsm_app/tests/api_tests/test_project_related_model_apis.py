@@ -66,3 +66,8 @@ class TestProjectAPIs:
     def test_user_of_project(api_test_case, super_client, dataset):
         response = super_client.get('/api/projects/1/users/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = super_client.get('/api/projects/1/users/filter/', {
+            "last_name__contains": "1"
+        })
+        api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
