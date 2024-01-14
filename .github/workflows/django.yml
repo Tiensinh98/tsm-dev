@@ -101,9 +101,10 @@ jobs:
 
     - name: Run Django tests
       run:
-        python manage.py makemigrations
-        python manage.py migrate
-        python manage.py test
+        pwd
+        python /home/runner/work/tsm-dev/tsm-dev/manage.py makemigrations
+        python /home/runner/work/tsm-dev/tsm-dev/manage.py migrate
+        python /home/runner/work/tsm-dev/tsm-dev/manage.py test
       env:
         DATABASE_URL: postgres://123456:postgres@localhost:5432/task_management_system
 
