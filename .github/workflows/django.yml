@@ -100,7 +100,7 @@ jobs:
       #  npm run build
 
     - name: Run Django tests
-      run:
+      run: |
         pwd
         python /home/runner/work/tsm-dev/tsm-dev/manage.py makemigrations
         python /home/runner/work/tsm-dev/tsm-dev/manage.py migrate
