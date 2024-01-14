@@ -1,5 +1,5 @@
 {
-  "secret_key": "",
+  "secret_key": "123456",
   "google_auth": {
     "social_auth_google_oauth2_key": "",
     "social_auth_google_oauth2_secret": ""
