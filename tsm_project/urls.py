@@ -21,6 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("", include("tsm_app.urls")),
+    path("user/", include("tsm_app.user_urls")),
     path("tsm-app/", include("tsm_app.app_urls")),
     path("api/", include("tsm_app.api_urls.auth_api_urls")),
     path("api/", include("tsm_app.api_urls.basic_model_api_urls")),

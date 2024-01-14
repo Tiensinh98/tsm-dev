@@ -37,7 +37,7 @@ export const AccountMenu = () => {
       if (!response.data.success) {
         console.log("Error occurs while logging out!");
       }
-      else navigate("/logout");
+      else navigate("/user/logout");
     }
     catch {
       console.log("Error occurs while logging out!");

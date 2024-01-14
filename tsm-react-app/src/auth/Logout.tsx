@@ -22,7 +22,7 @@ export const LogoutPage: React.FC = () => {
         md={12}
         lg={12}>
         <Typography>You've just logged out!</Typography>
-        <Button href='/login'>Login</Button>
+        <Button href='/user/login'>Login</Button>
       </Grid>
     </Grid>
   );

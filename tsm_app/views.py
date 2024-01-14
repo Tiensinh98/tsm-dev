@@ -17,7 +17,7 @@ def logout(request):
 
 def tsm_app(request):
     if not request.user.is_authenticated:
-        return redirect("/login")
+        return redirect("/user/login/?next=/tsm-app")
     return render(request, 'index.html', {})
 
 def tsm_app_projects(request):

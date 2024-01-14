@@ -14,11 +14,11 @@ export const App: React.FC = (props) => {
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/login" element={<AuthenticationPage />} />
+        <Route path="/user/login" element={<AuthenticationPage />} />
         <Route path="/tsm-app" element={<HomePage />} />
         <Route path="/tsm-app/projects" element={<ProjectListPage />} />
         <Route path="/tsm-app/projects/:id" element={<ProjectDetailPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/user/logout" element={<LogoutPage />} />
       </Routes>
     </Router>
   );
