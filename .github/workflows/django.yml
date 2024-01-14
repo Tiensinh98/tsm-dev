@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-pipeline-image:
-    runs-on: self-hosted 
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -57,7 +57,7 @@ jobs:
 
   test:
     needs: build-pipeline-image
-    runs-on: self-hosted 
+    runs-on: ubuntu-latest
     
     services:
       postgres:

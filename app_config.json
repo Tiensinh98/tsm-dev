@@ -1,0 +1,19 @@
+{
+  "secret_key": "",
+  "google_auth": {
+    "social_auth_google_oauth2_key": "",
+    "social_auth_google_oauth2_secret": ""
+  },
+  "database": {
+    "dataset": "task_management_system",
+    "user": "postgres",
+    "password": "123456",
+    "host": "localhost",
+    "port": 5432
+  },
+  "email": {
+    "host": "localhost",
+    "port": 1025,
+    "use_tls": false
+  }
+}
