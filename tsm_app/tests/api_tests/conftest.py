@@ -35,5 +35,6 @@ def anonymous_client():
 
 @pytest.fixture()
 def dataset():
+    utils.truncate_all_tables()
     dataset_filepath = TEST_DIR / 'test_datasets' / 'api' / 'dataset_1.json'
     utils.read_dataset_from_json(dataset_filepath)

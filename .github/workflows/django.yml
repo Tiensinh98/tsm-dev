@@ -108,27 +108,3 @@ jobs:
       env:
         DATABASE_URL: postgres://123456:postgres@localhost:5432/test_task_management_system
         TSM_APP_SETTINGS: app_config.json
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
