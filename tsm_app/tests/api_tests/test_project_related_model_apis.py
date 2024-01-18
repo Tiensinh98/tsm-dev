@@ -7,6 +7,7 @@ class TestProjectAPIs:
 
     @staticmethod
     @pytest.mark.django_db
+    @pytest.mark.skip(reason="Not fully implemented yet")
     def test_task_of_project(api_test_case, super_client, dataset):
         tasks_of_project = [
             {

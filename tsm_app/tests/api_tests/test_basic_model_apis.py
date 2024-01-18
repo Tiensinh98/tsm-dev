@@ -1,4 +1,5 @@
 import pytest
+import datetime
 from rest_framework import status
 
 
@@ -16,6 +17,7 @@ class TestBasicModelAPIs:
                 "priority": 'medium',
                 "status": 'in_development',
                 "description": None,
+                "createdDate": str(datetime.date.today()),
                 "leader": {
                     'id': 1,
                     'firstName': 'Test',
@@ -30,6 +32,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'to_do',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 'leader': None
             }
         ]
@@ -50,6 +53,7 @@ class TestBasicModelAPIs:
             'priority': 'medium',
             'status': 'to_do',
             'description': None,
+            "createdDate": str(datetime.date.today()),
             'leader': None
         })
         # generate csrf token
@@ -72,6 +76,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'to_do',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 'leader': None
             })
         response = super_client.get('/api/projects/')
@@ -120,6 +125,7 @@ class TestBasicModelAPIs:
                 "priority": 'medium',
                 "status": 'to_do',
                 "description": None,
+                "createdDate": str(datetime.date.today()),
                 "leader": {
                     "id": 2,
                     "firstName": 'Test',
@@ -134,6 +140,7 @@ class TestBasicModelAPIs:
                 "priority": 'medium',
                 "status": 'to_do',
                 "description": None,
+                "createdDate": str(datetime.date.today()),
                 "leader": {
                     "id": 2,
                     "firstName": 'Test',
@@ -155,6 +162,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'to_do',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 "leader": {
                     'id': 2,
                     'firstName': 'Test',
@@ -175,6 +183,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'in_development',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 'lineProject': {
                     'name': 'Project 1',
                     'id': 1, 'leader': {
@@ -193,6 +202,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'to_do',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 'lineProject': {
                     'name': 'Project 1',
                     'id': 1,
@@ -242,6 +252,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'to_do',
                 'description': None,
+                "createdDate": str(datetime.date.today()),
                 'lineProject': {
                     'name': 'Project 2',
                     'id': 2,
@@ -312,6 +323,7 @@ class TestBasicModelAPIs:
                 'priority': 'medium',
                 'status': 'in_development',
                 'description': 'This is task 3',
+                "createdDate": str(datetime.date.today()),
                 'lineProject': {
                     'name': 'Project 1',
                     'id': 1,
