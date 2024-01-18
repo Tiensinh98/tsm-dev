@@ -1,12 +1,14 @@
+import pytest
 from rest_framework import status
 from django.core import mail
 
 class TestAuthenticationAPIs:
 
     @staticmethod
-    def test_register_and_login_and_logout(api_test_case, basic_client):
+    @pytest.mark.django_db
+    def test_register_and_login_and_logout(api_test_case, anonymous_client):
         # Make a GET request to the API endpoint with the 'name' parameter
-        response = basic_client.post('/api/register/', {
+        response = anonymous_client.post('/api/register/', {
             'username': 'andrew',
             'email': 'andrew@gmail.com',
             'password': '123456'
@@ -18,17 +20,19 @@ class TestAuthenticationAPIs:
         # Check that the response contains the expected data
         api_test_case.assertEqual(response.json(), {'success': True, 'message': 'Create User successfully'})
 
-        response = basic_client.post('/api/login/', {
+        response = anonymous_client.post('/api/login/', {
             'username': 'andrew',
             'password': '123456'
         })
         api_test_case.assertEqual(response.json(), {'success': True})
-        response = basic_client.get('/api/csrf-token/')
+        response = anonymous_client.get('/api/csrf-token/')
         csrf_token = response.json().get('csrfToken') # or from response.cookies['csrftoken']
-        response = basic_client.post('/api/logout/', HTTP_X_CSRFTOKEN=csrf_token)
+        response = anonymous_client.post('/api/logout/', HTTP_X_CSRFTOKEN=csrf_token)
         api_test_case.assertEqual(response.json(), {'success': True})
 
-    def test_change_password(self, api_test_case, basic_client):
+    @staticmethod
+    @pytest.mark.django_db
+    def test_change_password(api_test_case, basic_client):
         response = basic_client.post('/api/register/', {
             'email': 'andrew@gmail.com',
             'username': 'andrew',
@@ -58,7 +62,9 @@ class TestAuthenticationAPIs:
         })
         api_test_case.assertEqual(response.json(), {'success': True})
 
-    def test_reset_password(self, api_test_case, basic_client):
+    @staticmethod
+    @pytest.mark.django_db
+    def test_reset_password(api_test_case, basic_client):
         response = basic_client.post('/api/password-reset/', {
             'email': 'test_user@gmail.com'
         })
@@ -66,6 +72,8 @@ class TestAuthenticationAPIs:
         outbox = mail.EmailMessage().body
         print(outbox)
 
-    def test_google_authentication(self, api_test_case, basic_client):
+    @staticmethod
+    @pytest.mark.django_db
+    def test_google_authentication(api_test_case, basic_client):
         response = basic_client.post('/social-auth/complete/google-oauth2/')
         print(response.content)

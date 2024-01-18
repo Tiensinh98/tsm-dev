@@ -1,9 +1,11 @@
+import pytest
 from rest_framework import status
 
 
 class TestBasicModelAPIs:
 
     @staticmethod
+    @pytest.mark.django_db
     def test_project_api(api_test_case, super_client, dataset):
         init_project_data = [
             {
@@ -162,6 +164,7 @@ class TestBasicModelAPIs:
         ])
 
     @staticmethod
+    @pytest.mark.django_db
     def test_task_api(api_test_case, super_client, dataset):
         init_task_data = [
             {
@@ -327,13 +330,16 @@ class TestBasicModelAPIs:
         ])
 
     @staticmethod
+    @pytest.mark.django_db
     def test_device_api(api_test_case, super_client, dataset):
         pass
 
     @staticmethod
+    @pytest.mark.django_db
     def test_team_api(api_test_case, super_client, dataset):
         pass
 
     @staticmethod
+    @pytest.mark.django_db
     def test_user_api(api_test_case, super_client, dataset):
         pass

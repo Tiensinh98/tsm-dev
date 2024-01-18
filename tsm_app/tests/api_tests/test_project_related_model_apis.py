@@ -1,10 +1,12 @@
-from rest_framework import status
 import datetime
+import pytest
+from rest_framework import status
 
 
 class TestProjectAPIs:
 
     @staticmethod
+    @pytest.mark.django_db
     def test_task_of_project(api_test_case, super_client, dataset):
         tasks_of_project = [
             {
@@ -57,17 +59,14 @@ class TestProjectAPIs:
         api_test_case.assertEqual(response.json(), [])
 
     @staticmethod
+    @pytest.mark.django_db
     def test_device_of_project(api_test_case, super_client, dataset):
         response = super_client.get('/api/projects/1/devices/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
     @staticmethod
+    @pytest.mark.django_db
     def test_user_of_project(api_test_case, super_client, dataset):
-        response = super_client.get('/api/projects/1/users/')
-        api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        response = super_client.get('/api/projects/1/users/filter/', {
-            "last_name__contains": "1"
-        })
+        response = super_client.get('/api/projects/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)

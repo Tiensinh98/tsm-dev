@@ -1,14 +1,7 @@
 import pytest
-import os
 import pathlib
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tsm_project.settings")
-os.environ.setdefault('TSM_APP_SETTINGS', 'test_app_config.json')
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
 from rest_framework.test import APITestCase, APIClient
-
 from tsm_app.app_tools import utils, database as db
 
 TEST_DIR = pathlib.Path(__file__).resolve().parent.parent
@@ -34,6 +27,11 @@ def basic_client():
         username='testuser', email='test_user@gmail.com',
         password='testpassword', is_superuser=False)
     return APIClient(enforce_csrf_checks=True)
+
+@pytest.fixture(autouse=True)
+def anonymous_client():
+    utils.truncate_all_tables()
+    return APIClient()
 
 @pytest.fixture()
 def dataset():
