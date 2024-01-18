@@ -104,9 +104,10 @@ jobs:
         pwd
         python manage.py makemigrations
         python manage.py migrate
-        python manage.py test
+        pytest
       env:
         DATABASE_URL: postgres://123456:postgres@localhost:5432/task_management_system
+        TSM_APP_SETTINGS: app_config.json
 
 
 
