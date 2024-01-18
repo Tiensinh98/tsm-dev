@@ -25,5 +25,6 @@ urlpatterns = [
     path("api/", include("tsm_app.api_urls.auth_api_urls")),
     path("api/", include("tsm_app.api_urls.basic_model_api_urls")),
     path("api/", include("tsm_app.api_urls.project_related_api_urls")),
+    path("api/", include("tsm_app.api_urls.team_related_api_urls")),
     path("admin/", admin.site.urls)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

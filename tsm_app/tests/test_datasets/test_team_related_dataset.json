@@ -1,0 +1,187 @@
+{
+  "models": [
+    {
+      "model_class": "Team",
+      "tuples": [
+        {
+          "description": null,
+          "id": 1,
+          "name": "Team 1",
+          "department": "IT"
+        },
+        {
+          "description": null,
+          "id": 2,
+          "name": "Team 2",
+          "department": "HR"
+        },
+        {
+          "description": null,
+          "id": 3,
+          "name": "Team 3",
+          "department": "Production"
+        }
+      ]
+    },
+    {
+      "model_class": "CustomUser",
+      "tuples": [
+        {
+          "id": 1,
+          "email": "test@akselos.com",
+          "username": "test_user",
+          "password": "test_password",
+          "first_name": "Test",
+          "last_name": "User"
+        },
+        {
+          "id": 2,
+          "email": "test1@gmail.com",
+          "username": "test_user1",
+          "password": "test_password1",
+          "first_name": "Test",
+          "last_name": "User1"
+        },
+        {
+          "id": 3,
+          "email": "andree@gmail.com",
+          "username": "andree",
+          "password": "test_password2",
+          "first_name": "Andree",
+          "last_name": "Right Hand"
+        },
+        {
+          "id": 4,
+          "email": "binz@akselos.com",
+          "username": "binz",
+          "password": "test_password2",
+          "first_name": "Binz",
+          "last_name": "Badboiz"
+        }
+      ]
+    },
+    {
+      "model_class": "Profile",
+      "tuples": [
+        {
+          "id": 1,
+          "role": "software_developer",
+          "dob": null,
+          "avatar": null,
+          "description": null
+        },
+        {
+          "id": 2,
+          "role": "software_engineer",
+          "dob": "1992-12-17",
+          "avatar": "test_user1.png",
+          "description": "Test description"
+        },
+        {
+          "id": 3,
+          "role": "software_engineer",
+          "dob": "1992-12-17",
+          "avatar": "test_user1.png",
+          "description": "Test description"
+        },
+        {
+          "id": 4,
+          "role": "software_engineer",
+          "dob": "1992-12-17",
+          "avatar": "test_user1.png",
+          "description": "Test description"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 1
+      }
+    },
+    {
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 2
+      }
+    },
+    {
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 3
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 3
+      }
+    },
+    {
+      "relation": "user",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 4
+      },
+      "target": {
+        "model_class": "Profile",
+        "id": 4
+      }
+    },
+    {
+      "relation": "leader",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 1
+      },
+      "target": {
+        "model_class": "Team",
+        "id": 1
+      }
+    },
+    {
+      "relation": "leader",
+      "reference": {
+        "model_class": "CustomUser",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Team",
+        "id": 2
+      }
+    },
+    {
+      "relation": "team",
+      "reference": {
+        "model_class": "Team",
+        "id": 2
+      },
+      "target": {
+        "model_class": "CustomUser",
+        "id": 3
+      }
+    },
+    {
+      "relation": "team",
+      "reference": {
+        "model_class": "Team",
+        "id": 2
+      },
+      "target": {
+        "model_class": "CustomUser",
+        "id": 4
+      }
+    }
+  ]
+}

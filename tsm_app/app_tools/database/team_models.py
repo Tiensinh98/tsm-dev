@@ -1,6 +1,5 @@
 from django.db import models
-
-from . import user_models
+import tsm_app.app_tools as pt
 from .. import utils
 
 __all__ = ['Team']
@@ -12,12 +11,10 @@ class Team(models.Model):
     multiple team members
     """
     name = models.CharField(max_length=50, default='', null=False)
-    department = models.CharField(max_length=50)
-    description = models.CharField(max_length=50)
-    leader: user_models.CustomUser = models.OneToOneField(
-        user_models.CustomUser, on_delete=models.SET_NULL, null=True, related_name='leader')
-    member: user_models.CustomUser = models.ForeignKey(
-        user_models.CustomUser, on_delete=models.SET_NULL, null=True, related_name="member")
+    department = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=50, null=True)
+    leader = models.OneToOneField(
+        'CustomUser', on_delete=models.SET_NULL, null=True, related_name='leader')
 
     class Meta:
         ordering = ['-name']
@@ -45,7 +42,18 @@ class Team(models.Model):
         }
 
     @staticmethod
+    def from_json_value(json_value: dict):
+        task_arguments = {}
+        field_to_converter = Team.get_non_primitive_field_to_converter()
+        for key, value in json_value.items():
+            if key in Team.__dict__.keys():
+                if key in field_to_converter:
+                    value = field_to_converter[key](value)
+                task_arguments[key] = value
+        return Team(**task_arguments)
+
+    @staticmethod
     def get_non_primitive_field_to_converter() -> dict:
         return {
-            'leader': lambda leader_id: (user_models.CustomUser.objects.get(id=leader_id), 'leader')
+            'leader': lambda leader_id: (pt.CustomUser.objects.get(id=leader_id), 'leader')
         }

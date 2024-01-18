@@ -3,7 +3,7 @@ import numpy as np
 
 from django.db import models
 from django.contrib.auth import models as auth_models
-
+from . import team_models
 
 __all__ = [
     'CustomUser', 'Profile',
@@ -26,6 +26,8 @@ class CustomUser(auth_models.AbstractUser):
     Model that stores all user information i.e. username, password,
     email, first_name, last_name and a profile
     """
+    team = models.ForeignKey(
+        team_models.Team, null=True, on_delete=models.SET_NULL, related_name='members')
     class Meta:
         app_label = 'tsm_app'
         swappable = 'AUTH_USER_MODEL'

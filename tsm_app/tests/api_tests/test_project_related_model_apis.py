@@ -7,7 +7,6 @@ class TestProjectAPIs:
 
     @staticmethod
     @pytest.mark.django_db
-    @pytest.mark.skip(reason="Not fully implemented yet")
     def test_task_of_project(api_test_case, super_client, dataset):
         tasks_of_project = [
             {
@@ -69,5 +68,32 @@ class TestProjectAPIs:
     @staticmethod
     @pytest.mark.django_db
     def test_user_of_project(api_test_case, super_client, dataset):
-        response = super_client.get('/api/projects/')
+        response = super_client.get('/api/projects/1/users/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
+        project_1_related_user = {
+            'leader':
+                {'id': 1, 'email': 'test@akselos.com',
+                 'username': 'test_user', 'firstName': 'Test', 'lastName': 'User'},
+            'assignees': [
+                {'id': 2, 'email': 'test1@example.com',
+                 'username': 'test_user1', 'firstName': 'Test', 'lastName': 'User1'}
+            ]
+        }
+        api_test_case.assertEqual(response.json(), project_1_related_user)
+        response = super_client.get('/api/projects/1/users/filter/', {
+            'id': 2
+        })
+        api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
+        api_test_case.assertEqual(response.json(), {
+            'leader': None,
+            "assignees": project_1_related_user['assignees']
+        })
+        response = super_client.get('/api/projects/1/users/filter/', {
+            "email__contains": "akselos"
+        })
+        api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
+        api_test_case.assertEqual(response.json(), {
+            'leader': {'id': 1, 'email': 'test@akselos.com',
+                       'username': 'test_user', 'firstName': 'Test', 'lastName': 'User'},
+            'assignees': []
+        })

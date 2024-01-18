@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from .. import database
+from . import view_utils
 
 def get_get_all_models_of_project(model_str):
     """
@@ -45,14 +46,14 @@ def get_filter_models_of_project(model_str):
     @api_view(['GET'])
     @permission_classes([IsAuthenticated])
     def filter_model_of_project(request, project_id) -> tp.Union[None, JsonResponse]:
-        query_params = request.query_params
+        query_params = request.query_params.dict()
         model_class = getattr(database, model_str)
         if model_class == database.CustomUser:
             leader_json = None
             projects = (database.Project.objects
                                  .select_related("leader")
                                  .filter(issue_ptr_id=project_id, leader__isnull=False,
-                                         **get_related_query_params(query_params, "leader")))
+                                         **view_utils.get_related_query_params(query_params, "leader")))
             if len(projects):
                 project = projects[0]
                 if project.leader is not None:
@@ -76,16 +77,8 @@ def get_filter_models_of_project(model_str):
     return filter_model_of_project
 
 
-def get_related_query_params(query_params: dict, related_name: str):
-    if query_params is None:
-        query_params = {}
-    else:
-        query_params = {f'{related_name}__{k}': v for k, v in query_params.items()}
-    return query_params
-
-
 def get_all_assignee_json_values_from_project(project_id: int, query_params=None):
-    query_params = get_related_query_params(query_params, "assignee")
+    query_params = view_utils.get_related_query_params(query_params, "assignee")
     tasks_of_project = ((database.Task.objects
                         .select_related("line_project", "assignee")
                         .filter(line_project=project_id, assignee__isnull=False, **query_params))
