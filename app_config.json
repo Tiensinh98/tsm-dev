@@ -5,7 +5,7 @@
     "social_auth_google_oauth2_secret": ""
   },
   "database": {
-    "dataset": "task_management_system",
+    "dataset": "test_task_management_system",
     "user": "postgres",
     "password": "123456",
     "host": "localhost",
