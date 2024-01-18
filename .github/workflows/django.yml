@@ -100,7 +100,8 @@ jobs:
       #  npm run build
 
     - name: Run Django tests
-      run:
+      run: |
+        pwd
         python manage.py makemigrations
         python manage.py migrate
         python manage.py test
