@@ -15,7 +15,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_PASSWORD: 123456
-          POSTGRES_DB: task_management_system
+          POSTGRES_DB: test_task_management_system
         ports:
           - 5432:5432
         options: >-
@@ -64,7 +64,7 @@ jobs:
         image: postgres
         env:
           POSTGRES_PASSWORD: 123456
-          POSTGRES_DB: task_management_system
+          POSTGRES_DB: test_task_management_system
         ports:
           - 5432:5432
 
@@ -106,7 +106,7 @@ jobs:
         python manage.py migrate
         pytest
       env:
-        DATABASE_URL: postgres://123456:postgres@localhost:5432/task_management_system
+        DATABASE_URL: postgres://123456:postgres@localhost:5432/test_task_management_system
         TSM_APP_SETTINGS: app_config.json
 
 
