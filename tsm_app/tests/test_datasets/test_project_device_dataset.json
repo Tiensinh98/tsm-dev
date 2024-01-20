@@ -1,0 +1,74 @@
+{
+  "models": [
+    {
+      "model_class": "Project",
+      "tuples": [
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 1,
+          "name": "Project 1",
+          "priority": "medium",
+          "status": "in_development"
+        },
+        {
+          "description": null,
+          "due_date": "2023-12-17",
+          "start_date": "2023-12-17",
+          "id": 2,
+          "name": "Project 2",
+          "priority": "medium",
+          "status": "to_do"
+        }
+      ]
+    },
+    {
+      "model_class": "Device",
+      "tuples": [
+        {
+          "id": 1,
+          "device_name": "Device 1",
+          "supplier": "PV",
+          "invoice": "device_1.png"
+        },
+        {
+          "id": 2,
+          "device_name": "Device 2",
+          "supplier": "FPT",
+          "invoice": "device_2.png"
+        },
+        {
+          "id": 3,
+          "device_name": "Device 3",
+          "supplier": "FPT",
+          "invoice": "device_3.png"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "relation": "project",
+      "reference": {
+        "model_class": "Project",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Device",
+        "id": 1
+      }
+    },
+    {
+      "relation": "project",
+      "reference": {
+        "model_class": "Project",
+        "id": 2
+      },
+      "target": {
+        "model_class": "Device",
+        "id": 2
+      }
+    }
+  ]
+}

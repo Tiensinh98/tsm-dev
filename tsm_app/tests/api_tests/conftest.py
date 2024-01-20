@@ -44,3 +44,9 @@ def dataset1():
     utils.truncate_all_tables()
     dataset_filepath = TEST_DIR / 'test_datasets' / 'test_team_related_dataset.json'
     utils.read_dataset_from_json(dataset_filepath)
+
+@pytest.fixture()
+def dataset2():
+    utils.truncate_all_tables()
+    dataset_filepath = TEST_DIR / 'test_datasets' / 'test_project_device_dataset.json'
+    utils.read_dataset_from_json(dataset_filepath)

@@ -77,6 +77,68 @@ def get_filter_models_of_project(model_str):
     return filter_model_of_project
 
 
+def get_delete_models_of_project(model_str):
+    """
+    This function acts as a wrapper that returns the filter project-related models
+    api respective to the model type
+    """
+    @api_view(['DELETE'])
+    @permission_classes([IsAuthenticated])
+    def delete_models_of_project(request, project_id, item_id) -> tp.Union[None, JsonResponse]:
+        model_class = getattr(database, model_str)
+        if model_class == database.CustomUser:
+            # search all tasks in project and set assignee to null
+            try:
+                user = database.CustomUser.objects.get(id=item_id)
+            except Exception as e:
+                return JsonResponse({"error": "Can not find user"})
+            try:
+                project = database.Project.objects.get(id=project_id)
+            except Exception as e:
+                return JsonResponse({"error": "Can not find project"})
+            leader = project.leader
+            if leader is not None:
+                leader_id = leader.id
+                if leader_id == item_id:
+                    project.leader = None
+            involved_tasks = project.task_set.select_related('assignee').filter(assignee__id=item_id)
+            for task in involved_tasks:
+                task.assignee = None
+                task.save()
+            project.save()
+            return JsonResponse({"success": "Update all things related to user successfully"}, status=200)
+        elif model_class == database.Device:
+            try:
+                device = database.Device.objects.get(id=item_id)
+            except Exception as e:
+                return JsonResponse({"error": "Can not find device"})
+            try:
+                project = database.Project.objects.get(id=project_id)
+            except Exception as e:
+                return JsonResponse({"error": "Can not find project"})
+            if device.project == project:
+                device.project = None
+                device.save()
+            return JsonResponse({"success": "Delete Project of device successfully"}, status=200)
+
+    return delete_models_of_project
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def add_device_to_project(request, project_id, device_id) -> tp.Union[None, JsonResponse]:
+    try:
+        device = database.Device.objects.get(id=device_id)
+    except Exception as e:
+        return JsonResponse({"error": "Can not find device"})
+    try:
+        project = database.Project.objects.get(id=project_id)
+    except Exception as e:
+        return JsonResponse({"error": "Can not find project"})
+    device.project = project
+    device.save()
+    return JsonResponse({"message": "Add device to project successfully"}, status=200)
+
+
 def get_all_assignee_json_values_from_project(project_id: int, query_params=None):
     query_params = view_utils.get_related_query_params(query_params, "assignee")
     tasks_of_project = ((database.Task.objects

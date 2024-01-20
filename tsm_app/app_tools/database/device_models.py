@@ -55,7 +55,7 @@ class Device(models.Model):
             'deviceType': self.device_type,
             'purchaseDate': self.purchase_date,
             'supplier': self.supplier,
-            'invoice': self.invoice,
+            'invoice': self.invoice.name,
             'handoverDate': self.handover_date,
             'basicConfig': self.basic_config,
             'status': self.status,

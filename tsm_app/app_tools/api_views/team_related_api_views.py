@@ -43,4 +43,61 @@ def filter_team_people(request, team_id) -> tp.Union[None, JsonResponse]:
     members = [query.get_json_value() for query in queries]
     return JsonResponse({"leader": leader_json, "members": members}, status=200, safe=False)
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_people_of_team(request, team_id, member_id):
+    """Remove people from team, could be team members or leader"""
+    try:
+        team = database.Team.objects.get(id=team_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find team"}, status=404)
+    leader = team.leader
+    try:
+        member = database.CustomUser.objects.get(id=member_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find member of team"}, status=404)
+    if leader == member:
+        team.leader = None
+        team.save()
+        return JsonResponse({"message": "Remove leader from team"}, status=200)
+    else:
+        members = team.members.all()
+        if member in members:
+            team.members.remove(member)
+            team.save()
+            return JsonResponse({"message": "Remove a member from team"}, status=200)
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def add_team_leader(request, team_id, member_id):
+    """Change team leader"""
+    try:
+        team = database.Team.objects.get(id=team_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find team"}, status=404)
+    try:
+        member = database.CustomUser.objects.get(id=member_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find member of team"}, status=404)
+    team.leader = member
+    team.save()
+    return JsonResponse({"message": "Change leader successfully"}, status=200)
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def add_team_member(request, team_id, member_id):
+    """Change team leader"""
+    try:
+        team = database.Team.objects.get(id=team_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find team"}, status=404)
+    try:
+        member = database.CustomUser.objects.get(id=member_id)
+    except Exception as e:
+        return JsonResponse({"error": "Could not find member of team"}, status=404)
+    members = team.members.all()
+    if member in members:
+        return JsonResponse({"message": "Team member already exists in team"}, status=200)
+    team.members.add(member)
+    team.save()
+    return JsonResponse({"message": "Add a member from team"}, status=200)
