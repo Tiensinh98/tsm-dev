@@ -1,4 +1,4 @@
-import django.utils.timezone
+import random
 from django.db import models
 
 from . import user_models
@@ -141,6 +141,7 @@ class Task(Issue):
             print('Try to instantiate Telephone without profile PrimaryKey!!! '
                   'Dummy Profile will be created!!!')
             line_project = Project(
+                id=random.randint(100, 100000),
                 name=f'dummy_project_name')
             line_project.save()
             kwargs['line_project'] = line_project
