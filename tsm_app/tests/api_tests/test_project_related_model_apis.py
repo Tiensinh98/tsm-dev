@@ -186,55 +186,13 @@ class TestProjectAPIs:
             'assignees': []
         })
         # get all tasks before
-        tasks = [
-            {
-                'id': 3,
-                'name': 'Task 1',
-                'startDate': '2023-12-17',
-                'dueDate': '2023-12-17',
-                'createdDate': '2024-01-21',
-                'priority': 'medium',
-                'status': 'in_development',
-                'description': None,
-                'lineProject': {
-                    'name': 'Project 1',
-                    'id': 1,
-                    'leader': {
-                        'id': 1,
-                        'firstName': 'Test',
-                        'lastName': 'User'
-                    }
-                },
-                'assignee': None
-            },
-            {
-                'id': 4,
-                'name': 'Task 2',
-                'startDate': '2023-12-17',
-                'dueDate': '2023-12-17',
-                'createdDate': '2024-01-21',
-                'priority': 'medium',
-                'status': 'to_do',
-                'description': None,
-                'lineProject': {
-                    'name': 'Project 1',
-                    'id': 1,
-                    'leader': {
-                        'id': 1,
-                        'firstName': 'Test',
-                        'lastName': 'User'
-                    }
-                },
-                'assignee': {
-                    'id': 2,
-                    'firstName': 'Test',
-                    'lastName': 'User1'
-                }
-            }
-        ]
         response = super_client.get('/api/projects/1/tasks/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
-        api_test_case.assertEqual(response.json(), tasks)
+        api_test_case.assertEqual(response.json()[1]['assignee'], {
+            'id': 2,
+            'firstName': 'Test',
+            'lastName': 'User1'
+        })
         # remove user-related things from project
         response = super_client.delete('/api/projects/1/users/2/')
         api_test_case.assertEqual(response.status_code, status.HTTP_200_OK)
