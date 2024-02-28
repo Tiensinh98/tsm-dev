@@ -7,7 +7,7 @@
   "database": {
     "dataset": "task_management_system",
     "user": "postgres",
-    "password": "Tiensinhakselos2016",
+    "password": "",
     "host": "localhost",
     "port": 5432
   },
