@@ -4,6 +4,7 @@ from datetime import datetime
 import tsm_app.app_tools.database as db
 
 def read_dataset_from_json(filepath):
+    # TODO: topological ordering before reading json for efficiency
     with open(filepath, 'r') as f:
         dataset_json = json.load(f)
         model_datas = dataset_json.get('models', None)

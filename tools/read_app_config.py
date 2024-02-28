@@ -3,7 +3,7 @@ import json
 
 from . import directories
 
-SETTING_FILEPATH = directories.BASE_DIR / os.environ['TSM_APP_SETTINGS']
+SETTING_FILEPATH = directories.BASE_DIR / os.environ.get('TSM_APP_SETTINGS', 'test_app_config.json')
 with open(SETTING_FILEPATH, 'r') as f:
     SETTING_CONFIG = json.load(f)
 
